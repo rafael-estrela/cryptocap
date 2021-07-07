@@ -17,6 +17,8 @@ android {
         versionCode 1
         versionName "1.0"
 
+        buildConfigField "String", "BASE_URL", "\"https://pro-api.coinmarketcap.com/v1/cryptocurrency/\""
+        buildConfigField "String", "API_KEY", "\"2ec8b9db-3efc-483e-a736-d5365813a50e\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -24,8 +26,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-
-            buildConfigField "String", "API_KEY", "\"2ec8b9db-3efc-483e-a736-d5365813a50e\""
         }
     }
 
@@ -98,8 +98,10 @@ dependencies {
 
     // DI
     implementation "io.insert-koin:koin-core:$versions.koin"
+    implementation "io.insert-koin:koin-android:$versions.koin"
 
     // Network
+    implementation "com.squareup.okhttp3:okhttp:$versions.okhttp"
     implementation "com.squareup.retrofit2:retrofit:$versions.retrofit"
     implementation "com.squareup.retrofit2:converter-moshi:$versions.retrofit"
 
@@ -119,7 +121,7 @@ dependencies {
     testImplementation "junit:junit:$versions.junit"
     testImplementation "androidx.test.ext:truth:$versions.truth"
     testImplementation "io.mockk:mockk:$versions.mockk"
-    testImplementation "com.squareup.okhttp3:mockwebserver:$versions.mockwebserver"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$versions.okhttp"
     testImplementation "io.insert-koin:koin-test:$versions.koin"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutines"
     testImplementation "androidx.room:room-testing:$versions.room"
