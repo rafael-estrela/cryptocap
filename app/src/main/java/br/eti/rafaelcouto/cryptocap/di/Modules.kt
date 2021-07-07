@@ -3,7 +3,7 @@ package br.eti.rafaelcouto.cryptocap.di
 import br.eti.rafaelcouto.cryptocap.BuildConfig
 import br.eti.rafaelcouto.cryptocap.application.network.interceptor.HeaderInterceptor
 import br.eti.rafaelcouto.cryptocap.application.network.RequestConstants
-import br.eti.rafaelcouto.cryptocap.application.network.adapter.ResponseAdapterFactory
+import br.eti.rafaelcouto.cryptocap.application.network.adapter.ResultAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.koin.dsl.module
@@ -18,7 +18,7 @@ object Modules {
     private val network = module {
         single<Interceptor> { HeaderInterceptor() }
         single<Converter.Factory> { MoshiConverterFactory.create() }
-        single<CallAdapter.Factory> { ResponseAdapterFactory.invoke() }
+        single<CallAdapter.Factory> { ResultAdapterFactory.invoke() }
 
         single {
             OkHttpClient.Builder()

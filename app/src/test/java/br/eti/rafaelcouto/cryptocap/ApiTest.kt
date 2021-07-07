@@ -1,6 +1,6 @@
 package br.eti.rafaelcouto.cryptocap
 
-import br.eti.rafaelcouto.cryptocap.application.network.adapter.ResponseAdapterFactory
+import br.eti.rafaelcouto.cryptocap.application.network.adapter.ResultAdapterFactory
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -37,7 +37,7 @@ abstract class ApiTest {
     protected inline fun <reified T> buildApi(): T = Retrofit.Builder()
         .baseUrl(mockWebServer.url("/").toString())
         .addConverterFactory(MoshiConverterFactory.create())
-        .addCallAdapterFactory(ResponseAdapterFactory())
+        .addCallAdapterFactory(ResultAdapterFactory())
         .build().create(T::class.java)
 
     private fun getJson(path: String?) = path?.let {
