@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="item"
+            type="br.eti.rafaelcouto.cryptocap.domain.model.CryptoItemUI" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginStart="@dimen/spacing_little"
+            android:layout_marginEnd="@dimen/spacing_little"
+            android:text="@{item.name}"
+            android:textAppearance="@style/TextStyle.Standard"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Bitcoin"/>
+
+        <TextView
+            android:id="@+id/tvSymbol"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginStart="@dimen/spacing_little"
+            android:layout_marginEnd="@dimen/spacing_little"
+            android:text="@{item.symbol}"
+            android:textAppearance="@style/TextStyle.Small"
+            app:layout_constraintTop_toBottomOf="@id/tvName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="BTC"/>
+
+        <TextView
+            android:id="@+id/tvDollarPrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_little"
+            android:layout_marginEnd="@dimen/spacing_little"
+            android:text="@{item.dollarPrice}"
+            android:textAppearance="@style/TextStyle.Small"
+            app:layout_constraintTop_toBottomOf="@id/tvSymbol"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="US$ 9,999.99"/>
+
+        <TextView
+            android:id="@+id/tvRecentVariation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_little"
+            android:layout_marginEnd="@dimen/spacing_little"
+            android:layout_marginBottom="@dimen/spacing_tiny"
+            android:text="@{item.recentVariation}"
+            android:textAppearance="@style/TextStyle.Small"
+            app:layout_constraintTop_toBottomOf="@id/tvDollarPrice"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="18.54346%"/>
+        
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/border_standard"
+            android:background="@color/secondaryDarkColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

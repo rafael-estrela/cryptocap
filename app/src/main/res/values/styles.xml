@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextStyle">
+        <item name="android:textColor">@color/textColor</item>
+        <item name="fontFamily">@font/ubuntu_regular</item>
+    </style>
+
+    <style name="TextStyle.Large">
+        <item name="android:textSize">@dimen/text_size_large</item>
+    </style>
+
+    <style name="TextStyle.Semi">
+        <item name="android:textSize">@dimen/text_size_semi</item>
+    </style>
+
+    <style name="TextStyle.Standard">
+        <item name="android:textSize">@dimen/text_size_standard</item>
+    </style>
+
+    <style name="TextStyle.Small">
+        <item name="android:textSize">@dimen/text_size_small</item>
+    </style>
+
+    <style name="TextStyle.Tiny">
+        <item name="android:textSize">@dimen/text_size_tiny</item>
+    </style>
+</resources>
