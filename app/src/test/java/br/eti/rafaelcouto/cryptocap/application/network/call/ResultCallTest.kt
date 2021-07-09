@@ -21,13 +21,13 @@ import java.lang.reflect.Type
 
 class ResultCallTest {
 
-    @RelaxedMockK private lateinit var mockDelegate: Call<Body<String>>
-    @RelaxedMockK private lateinit var mockCallback: Callback<Result<String>>
-
     @MockK private lateinit var mockType: Type
     @MockK private lateinit var mockRequest: Request
     @MockK private lateinit var mockResponse: Response<Body<String>>
     @MockK private lateinit var mockErrorBody: ResponseBody
+
+    @RelaxedMockK private lateinit var mockDelegate: Call<Body<String>>
+    @RelaxedMockK private lateinit var mockCallback: Callback<Result<String>>
 
     private lateinit var sut: ResultCall<String>
 
@@ -35,7 +35,7 @@ class ResultCallTest {
     fun setUp() {
         MockKAnnotations.init(this)
 
-        sut = ResultCall(mockDelegate, mockType)
+        sut = ResultCall(delegate = mockDelegate, successType = mockType)
 
         every { mockDelegate.clone() }.returns(mockDelegate)
         every { mockDelegate.isExecuted }.returns(true)

@@ -17,4 +17,10 @@ class RequestConstantsTest {
     fun apiKeyHeaderTest() {
         assertThat(RequestConstants.API_KEY_HEADER).isEqualTo("X-CMC_PRO_API_KEY")
     }
+
+    @Test
+    fun defaultErrorTest() {
+        assertThat(RequestConstants.DEFAULT_ERROR)
+            .isEqualTo("Houve algum problema ao carregar os dados. Tente novamente mais tarde.")
+    }
 }

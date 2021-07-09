@@ -19,7 +19,7 @@ class ResultTest {
 
     @Test
     fun createSuccessResultTest() {
-        val actual = Result.success("dummy data")
+        val actual = Result.success(data = "dummy data")
 
         assertThat(actual.status).isEqualTo(Result.Status.SUCCESS)
         assertThat(actual.error).isNull()
@@ -28,7 +28,7 @@ class ResultTest {
 
     @Test
     fun createErrorResultTest() {
-        val actual = Result.error<String>("dummy error")
+        val actual = Result.error<String>(error = "dummy error")
 
         assertThat(actual.status).isEqualTo(Result.Status.ERROR)
         assertThat(actual.error).isEqualTo("dummy error")

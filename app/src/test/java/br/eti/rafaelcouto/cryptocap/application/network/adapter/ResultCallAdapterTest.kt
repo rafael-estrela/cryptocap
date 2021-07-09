@@ -15,14 +15,14 @@ import retrofit2.Call
 class ResultCallAdapterTest {
 
     @MockK private lateinit var mockCall: Call<Body<String>>
+
     private lateinit var sut: ResultCallAdapter<String>
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
 
-        val type = String::class.java
-        sut = ResultCallAdapter(type)
+        sut = ResultCallAdapter(responseType = String::class.java)
     }
 
     @Test

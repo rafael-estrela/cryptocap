@@ -4,7 +4,8 @@ import br.eti.rafaelcouto.cryptocap.application.network.model.Body
 import br.eti.rafaelcouto.cryptocap.application.network.model.Result
 import com.google.common.truth.Truth.assertThat
 import com.squareup.moshi.Types
-import io.mockk.mockkClass
+import io.mockk.MockKAnnotations
+import io.mockk.impl.annotations.MockK
 import org.junit.Before
 import org.junit.Test
 import retrofit2.Call
@@ -13,12 +14,14 @@ import java.lang.Exception
 
 class ResultAdapterFactoryTest {
 
+    @MockK private lateinit var mockRetrofit: Retrofit
+
     private lateinit var sut: ResultAdapterFactory
-    private lateinit var mockRetrofit: Retrofit
 
     @Before
     fun setUp() {
-        mockRetrofit = mockkClass(Retrofit::class)
+        MockKAnnotations.init(this)
+
         sut = ResultAdapterFactory.invoke()
     }
 

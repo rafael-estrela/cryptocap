@@ -85,6 +85,8 @@ dependencies {
     implementation "androidx.core:core-ktx:$versions.corektx"
     implementation "androidx.appcompat:appcompat:$versions.appcompat"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lifecycle"
 
     // Material and UI
     implementation "com.google.android.material:material:$versions.material"
@@ -104,6 +106,7 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$versions.okhttp"
     implementation "com.squareup.retrofit2:retrofit:$versions.retrofit"
     implementation "com.squareup.retrofit2:converter-moshi:$versions.retrofit"
+    implementation "com.squareup.okhttp3:logging-interceptor:$versions.okhttp"
 
     // Room
     kapt "androidx.room:room-compiler:$versions.room"
@@ -120,6 +123,7 @@ dependencies {
     // Unit tests
     testImplementation "junit:junit:$versions.junit"
     testImplementation "androidx.test.ext:truth:$versions.truth"
+    testImplementation "android.arch.core:core-testing:$versions.coretesting"
     testImplementation "io.mockk:mockk:$versions.mockk"
     testImplementation "com.squareup.okhttp3:mockwebserver:$versions.okhttp"
     testImplementation "io.insert-koin:koin-test:$versions.koin"
