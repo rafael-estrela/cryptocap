@@ -1,12 +1,17 @@
 package br.eti.rafaelcouto.cryptocap.di
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingSource
 import br.eti.rafaelcouto.cryptocap.BuildConfig
-import br.eti.rafaelcouto.cryptocap.application.network.interceptor.HeaderInterceptor
 import br.eti.rafaelcouto.cryptocap.application.network.RequestConstants
 import br.eti.rafaelcouto.cryptocap.application.network.adapter.ResultAdapterFactory
+import br.eti.rafaelcouto.cryptocap.application.network.interceptor.HeaderInterceptor
 import br.eti.rafaelcouto.cryptocap.data.api.HomeApi
+import br.eti.rafaelcouto.cryptocap.data.model.CryptoItem
 import br.eti.rafaelcouto.cryptocap.data.repository.HomeRepository
 import br.eti.rafaelcouto.cryptocap.data.repository.abs.HomeRepositoryAbs
+import br.eti.rafaelcouto.cryptocap.data.source.HomePagingSource
 import br.eti.rafaelcouto.cryptocap.domain.mapper.CryptoItemMapper
 import br.eti.rafaelcouto.cryptocap.domain.mapper.abs.CryptoItemMapperAbs
 import br.eti.rafaelcouto.cryptocap.domain.usecase.HomeUseCase
@@ -65,8 +70,16 @@ object Modules {
         }
     }
 
+    private val paging = module {
+        single<PagingSource<Int, CryptoItem>> { HomePagingSource(api = get()) }
+
+        single { PagingConfig(HomeRepository.DEFAULT_LIST_SIZE) }
+
+        single { Pager(get()) { get<PagingSource<Int, CryptoItem>>() } }
+    }
+
     private val repository = module {
-        single<HomeRepositoryAbs> { HomeRepository(api = get()) }
+        single<HomeRepositoryAbs> { HomeRepository(pager = get()) }
     }
 
     private val useCase = module {
@@ -88,5 +101,5 @@ object Modules {
         }
     }
 
-    val all = listOf(network, api, repository, useCase, mapper, viewModel)
+    val all = listOf(network, api, paging, repository, useCase, mapper, viewModel)
 }

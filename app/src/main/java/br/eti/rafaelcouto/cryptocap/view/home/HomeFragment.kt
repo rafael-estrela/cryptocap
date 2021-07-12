@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.paging.PagingData
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import br.eti.rafaelcouto.cryptocap.application.network.model.Result
 import br.eti.rafaelcouto.cryptocap.databinding.FragmentHomeBinding
 import br.eti.rafaelcouto.cryptocap.viewmodel.HomeViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -18,6 +18,8 @@ class HomeFragment : Fragment() {
 
     private val homeViewModel: HomeViewModel by viewModel()
     private val cryptoAdapter = CryptoItemsAdapter()
+    private val headerAdapter = CryptoItemsLoadStateAdapter { cryptoAdapter.retry() }
+    private val footerAdapter = CryptoItemsLoadStateAdapter { cryptoAdapter.retry() }
     private var listener: CryptoItemsAdapter.OnItemClickListener? = null
 
     private lateinit var binding: FragmentHomeBinding
@@ -57,25 +59,24 @@ class HomeFragment : Fragment() {
         }
 
         cryptoAdapter.onItemClickListener = listener
+        cryptoAdapter.addLoadStateListener { loadStates ->
+            headerAdapter.loadState = loadStates.refresh
+            footerAdapter.loadState = loadStates.append
+        }
 
         binding.rvCryptoList.run {
             layoutManager = LinearLayoutManager(requireContext())
             itemAnimator = DefaultItemAnimator()
-            adapter = cryptoAdapter
+            adapter = ConcatAdapter(headerAdapter, cryptoAdapter, footerAdapter)
+            setHasFixedSize(true)
         }
+
+        cryptoAdapter.submitData(lifecycle, PagingData.empty())
     }
 
-    private fun setupObservers() = homeViewModel.run {
-        status.observe(viewLifecycleOwner) { handleStatus(it) }
-
-        data.observe(viewLifecycleOwner) {
-            cryptoAdapter.setItems(it)
+    private fun setupObservers() {
+        homeViewModel.data.observe(viewLifecycleOwner) {
+            cryptoAdapter.submitData(lifecycle, it)
         }
-    }
-
-    private fun handleStatus(status: Result.Status) = binding.run {
-        rvCryptoList.isVisible = status == Result.Status.SUCCESS
-        tvError.isVisible = status == Result.Status.ERROR
-        pbLoading.isVisible = status == Result.Status.LOADING
     }
 }

@@ -1,13 +1,16 @@
 package br.eti.rafaelcouto.cryptocap.data.api
 
-import br.eti.rafaelcouto.cryptocap.ApiTest
 import br.eti.rafaelcouto.cryptocap.application.network.model.Result
+import br.eti.rafaelcouto.cryptocap.data.repository.HomeRepository
+import br.eti.rafaelcouto.cryptocap.data.source.HomePagingSource
+import br.eti.rafaelcouto.cryptocap.testhelper.base.ApiTest
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import java.net.HttpURLConnection
 
 @RunWith(JUnit4::class)
 class HomeApiTest : ApiTest() {
@@ -20,13 +23,28 @@ class HomeApiTest : ApiTest() {
     }
 
     @Test
+    fun getListRquestTest() = runBlocking {
+        enqueueResponseFromFile("list_success.json")
+        sut.fetchAll(HomePagingSource.INITIAL_START, HomeRepository.DEFAULT_LIST_SIZE)
+        val request = mockWebServer.takeRequest()
+
+        request.path.run {
+            assertThat(this).startsWith("/listings/latest?")
+            assertThat(this).contains("start=1")
+            assertThat(this).contains("limit=15")
+        }
+
+        assertThat(request.method).ignoringCase().isEqualTo("GET")
+    }
+
+    @Test
     fun getListSuccessTest() = runBlocking {
         enqueueResponseFromFile("list_success.json")
-        val actual = sut.fetchAll()
+        val actual = sut.fetchAll(HomePagingSource.INITIAL_START, HomeRepository.DEFAULT_LIST_SIZE)
 
         assertThat(actual.data).isNotNull()
         assertThat(actual.data).isNotEmpty()
-        assertThat(actual.data).hasSize(10)
+        assertThat(actual.data).hasSize(5)
 
         actual.data?.let { data ->
             assertThat(data[0].id).isEqualTo(1)
@@ -58,36 +76,6 @@ class HomeApiTest : ApiTest() {
             assertThat(data[4].symbol).isEqualTo("ADA")
             assertThat(data[4].quote.usdQuote.price).isEqualTo(1.41064547096802)
             assertThat(data[4].quote.usdQuote.dayVariation).isEqualTo(-0.2703349)
-
-            assertThat(data[5].id).isEqualTo(52)
-            assertThat(data[5].name).isEqualTo("XRP")
-            assertThat(data[5].symbol).isEqualTo("XRP")
-            assertThat(data[5].quote.usdQuote.price).isEqualTo(0.66274047655856)
-            assertThat(data[5].quote.usdQuote.dayVariation).isEqualTo(-0.18425307)
-
-            assertThat(data[6].id).isEqualTo(74)
-            assertThat(data[6].name).isEqualTo("Dogecoin")
-            assertThat(data[6].symbol).isEqualTo("DOGE")
-            assertThat(data[6].quote.usdQuote.price).isEqualTo(0.23224748540349)
-            assertThat(data[6].quote.usdQuote.dayVariation).isEqualTo(-1.10136679)
-
-            assertThat(data[7].id).isEqualTo(3408)
-            assertThat(data[7].name).isEqualTo("USD Coin")
-            assertThat(data[7].symbol).isEqualTo("USDC")
-            assertThat(data[7].quote.usdQuote.price).isEqualTo(1.00000883985712)
-            assertThat(data[7].quote.usdQuote.dayVariation).isEqualTo(-0.04651697)
-
-            assertThat(data[8].id).isEqualTo(6636)
-            assertThat(data[8].name).isEqualTo("Polkadot")
-            assertThat(data[8].symbol).isEqualTo("DOT")
-            assertThat(data[8].quote.usdQuote.price).isEqualTo(15.98897287265222)
-            assertThat(data[8].quote.usdQuote.dayVariation).isEqualTo(4.48603884)
-
-            assertThat(data[9].id).isEqualTo(7083)
-            assertThat(data[9].name).isEqualTo("Uniswap")
-            assertThat(data[9].symbol).isEqualTo("UNI")
-            assertThat(data[9].quote.usdQuote.price).isEqualTo(22.8623533209434)
-            assertThat(data[9].quote.usdQuote.dayVariation).isEqualTo(15.47811344)
         }
 
         assertThat(actual.status).isEqualTo(Result.Status.SUCCESS)
@@ -96,8 +84,8 @@ class HomeApiTest : ApiTest() {
 
     @Test
     fun getListErrorTest() = runBlocking {
-        enqueueResponseFromFile("list_invalid_api_key.json", 401)
-        val actual = sut.fetchAll()
+        enqueueResponseFromFile("list_invalid_api_key.json", HttpURLConnection.HTTP_UNAUTHORIZED)
+        val actual = sut.fetchAll(HomePagingSource.INITIAL_START, HomeRepository.DEFAULT_LIST_SIZE)
         assertThat(actual.status).isEqualTo(Result.Status.ERROR)
         assertThat(actual.error).isEqualTo("This API Key is invalid.")
         assertThat(actual.data).isNull()

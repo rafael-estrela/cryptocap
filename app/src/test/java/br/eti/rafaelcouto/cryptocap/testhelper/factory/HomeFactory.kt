@@ -1,4 +1,4 @@
-package br.eti.rafaelcouto.cryptocap.factory
+package br.eti.rafaelcouto.cryptocap.testhelper.factory
 
 import br.eti.rafaelcouto.cryptocap.data.model.CryptoItem
 import br.eti.rafaelcouto.cryptocap.data.model.QuoteItem

@@ -1,8 +1,8 @@
 package br.eti.rafaelcouto.cryptocap.application.network.interceptor
 
-import br.eti.rafaelcouto.cryptocap.ApiTest
 import br.eti.rafaelcouto.cryptocap.BuildConfig
 import br.eti.rafaelcouto.cryptocap.application.network.RequestConstants
+import br.eti.rafaelcouto.cryptocap.testhelper.base.ApiTest
 import com.google.common.truth.Truth.assertThat
 import okhttp3.OkHttpClient
 import okhttp3.Request

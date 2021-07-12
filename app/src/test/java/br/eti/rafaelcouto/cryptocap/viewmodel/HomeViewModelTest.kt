@@ -1,15 +1,15 @@
 package br.eti.rafaelcouto.cryptocap.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import br.eti.rafaelcouto.cryptocap.CoroutinesTestRule
-import br.eti.rafaelcouto.cryptocap.application.network.model.Result
+import androidx.paging.PagingData
 import br.eti.rafaelcouto.cryptocap.domain.usecase.abs.HomeUseCaseAbs
-import br.eti.rafaelcouto.cryptocap.factory.HomeFactory
+import br.eti.rafaelcouto.cryptocap.testhelper.base.PagingDataTest
+import br.eti.rafaelcouto.cryptocap.testhelper.factory.HomeFactory
+import br.eti.rafaelcouto.cryptocap.testhelper.rule.CoroutinesTestRule
 import com.google.common.truth.Truth.assertThat
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
@@ -20,7 +20,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
-class HomeViewModelTest {
+class HomeViewModelTest : PagingDataTest() {
 
     @get:Rule val instantTaskExecutor = InstantTaskExecutorRule()
     @get:Rule @ExperimentalCoroutinesApi val coroutineRule = CoroutinesTestRule()
@@ -29,55 +29,44 @@ class HomeViewModelTest {
 
     private lateinit var sut: HomeViewModel
 
-    private val statusSequence = mutableListOf<Result.Status>()
-    private val errorMessageSequence = mutableListOf<String?>()
-
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
 
-        sut = HomeViewModel(
-            useCase = mockUseCase,
-            dispatcher = Dispatchers.Main
-        ).apply {
-            status.observeForever { statusSequence.add(it) }
-            errorMessage.observeForever { errorMessageSequence.add(it) }
-            data.observeForever {  }
+        sut = HomeViewModel(useCase = mockUseCase).apply {
+            data.observeForever { }
         }
-
-        statusSequence.clear()
-        errorMessageSequence.clear()
     }
 
     @Test
     fun loadDataSuccessTest() = runBlocking {
         assertThat(sut.data.value).isNull()
-        assertThat(sut.status.value).isNull()
-        assertThat(sut.errorMessage.value).isNull()
 
         val expected = HomeFactory.cryptoListUI
-        coEvery { mockUseCase.fetchAll() }.returns(flowOf(Result.success(expected)))
+        coEvery { mockUseCase.fetchAll() }.returns(flowOf(PagingData.from(expected)))
 
         sut.loadData()
 
-        assertThat(sut.data.value).isEqualTo(expected)
-        assertThat(statusSequence).containsExactly(Result.Status.LOADING, Result.Status.SUCCESS).inOrder()
-        assertThat(errorMessageSequence).containsExactly(null, null).inOrder()
+        assertThat(sut.data.value).isNotNull()
+
+        val actual = getDifferSnapshot(sut.data.value!!)
+
+        assertThat(actual).isNotEmpty()
+        assertThat(actual.items).isNotEmpty()
+        assertThat(actual.items).isEqualTo(expected)
     }
 
     @Test
     fun loadDataFailureTest() = runBlocking {
         assertThat(sut.data.value).isNull()
-        assertThat(sut.status.value).isNull()
-        assertThat(sut.errorMessage.value).isNull()
 
-        val expected = "dummy message"
-        coEvery { mockUseCase.fetchAll() }.returns(flowOf(Result.error(expected)))
+        coEvery { mockUseCase.fetchAll() }.returns(flowOf(PagingData.empty()))
 
         sut.loadData()
 
-        assertThat(sut.data.value).isEmpty()
-        assertThat(statusSequence).containsExactly(Result.Status.LOADING, Result.Status.ERROR).inOrder()
-        assertThat(errorMessageSequence).containsExactly(null, expected).inOrder()
+        assertThat(sut.data.value).isNotNull()
+
+        val actual = getDifferSnapshot(sut.data.value!!)
+        assertThat(actual).isEmpty()
     }
 }

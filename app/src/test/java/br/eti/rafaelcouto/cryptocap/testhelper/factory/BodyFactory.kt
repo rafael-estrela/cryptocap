@@ -1,4 +1,4 @@
-package br.eti.rafaelcouto.cryptocap.factory
+package br.eti.rafaelcouto.cryptocap.testhelper.factory
 
 import br.eti.rafaelcouto.cryptocap.application.network.model.Body
 import br.eti.rafaelcouto.cryptocap.application.network.model.Status

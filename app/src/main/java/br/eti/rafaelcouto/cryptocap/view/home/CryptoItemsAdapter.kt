@@ -3,14 +3,15 @@ package br.eti.rafaelcouto.cryptocap.view.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import br.eti.rafaelcouto.cryptocap.R
 import br.eti.rafaelcouto.cryptocap.databinding.RowCryptoItemBinding
 import br.eti.rafaelcouto.cryptocap.domain.model.CryptoItemUI
 
-class CryptoItemsAdapter : RecyclerView.Adapter<CryptoItemsAdapter.ViewHolder>() {
+class CryptoItemsAdapter : PagingDataAdapter<CryptoItemUI, CryptoItemsAdapter.ViewHolder>(CryptoItemComparator) {
 
-    private val mutableItems: MutableList<CryptoItemUI> = mutableListOf()
     var onItemClickListener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -24,20 +25,10 @@ class CryptoItemsAdapter : RecyclerView.Adapter<CryptoItemsAdapter.ViewHolder>()
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItemForPosition(position)
-        holder.bind(item)
+        getItem(position)?.let { holder.bind(it) }
     }
 
-    override fun getItemCount() = mutableItems.size
     override fun getItemViewType(position: Int) = R.layout.row_crypto_item
-
-    fun setItems(items: List<CryptoItemUI>) {
-        mutableItems.clear()
-        mutableItems.addAll(items)
-        notifyDataSetChanged()
-    }
-
-    private fun getItemForPosition(position: Int) = mutableItems[position]
 
     inner class ViewHolder(
         private val binding: RowCryptoItemBinding
@@ -55,5 +46,17 @@ class CryptoItemsAdapter : RecyclerView.Adapter<CryptoItemsAdapter.ViewHolder>()
 
     interface OnItemClickListener {
         fun onItemClick(id: Long)
+    }
+
+    object CryptoItemComparator : DiffUtil.ItemCallback<CryptoItemUI>() {
+        override fun areItemsTheSame(
+            oldItem: CryptoItemUI,
+            newItem: CryptoItemUI
+        ) = oldItem.id == newItem.id
+
+        override fun areContentsTheSame(
+            oldItem: CryptoItemUI,
+            newItem: CryptoItemUI
+        ) = oldItem == newItem
     }
 }

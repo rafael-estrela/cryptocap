@@ -1,12 +1,16 @@
 package br.eti.rafaelcouto.cryptocap.data.repository
 
-import br.eti.rafaelcouto.cryptocap.data.api.HomeApi
+import androidx.paging.Pager
+import br.eti.rafaelcouto.cryptocap.data.model.CryptoItem
 import br.eti.rafaelcouto.cryptocap.data.repository.abs.HomeRepositoryAbs
-import kotlinx.coroutines.flow.flowOf
 
 class HomeRepository(
-    private val api: HomeApi
+    private val pager: Pager<Int, CryptoItem>
 ) : HomeRepositoryAbs {
 
-    override suspend fun fetchAll() = flowOf(api.fetchAll())
+    companion object {
+        const val DEFAULT_LIST_SIZE = 15
+    }
+
+    override suspend fun fetchAll() = pager.flow
 }

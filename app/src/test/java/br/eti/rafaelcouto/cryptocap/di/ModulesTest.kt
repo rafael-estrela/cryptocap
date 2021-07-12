@@ -1,11 +1,16 @@
 package br.eti.rafaelcouto.cryptocap.di
 
 import android.content.Context
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingSource
 import br.eti.rafaelcouto.cryptocap.application.network.adapter.ResultAdapterFactory
 import br.eti.rafaelcouto.cryptocap.application.network.interceptor.HeaderInterceptor
 import br.eti.rafaelcouto.cryptocap.data.api.HomeApi
+import br.eti.rafaelcouto.cryptocap.data.model.CryptoItem
 import br.eti.rafaelcouto.cryptocap.data.repository.HomeRepository
 import br.eti.rafaelcouto.cryptocap.data.repository.abs.HomeRepositoryAbs
+import br.eti.rafaelcouto.cryptocap.data.source.HomePagingSource
 import br.eti.rafaelcouto.cryptocap.domain.mapper.CryptoItemMapper
 import br.eti.rafaelcouto.cryptocap.domain.mapper.abs.CryptoItemMapperAbs
 import br.eti.rafaelcouto.cryptocap.domain.usecase.HomeUseCase
@@ -70,6 +75,18 @@ class ModulesTest : KoinTest {
         val homeApi: HomeApi by inject()
 
         assertThat(homeApi).isNotNull()
+    }
+
+    @Test
+    fun pagerModulesTest() {
+        val homeSource: PagingSource<Int, CryptoItem> by inject()
+        val pagingConfig: PagingConfig by inject()
+        val pager: Pager<Int, CryptoItem> by inject()
+
+        assertThat(homeSource).isInstanceOf(HomePagingSource::class.java)
+        assertThat(pagingConfig).isNotNull()
+        assertThat(pagingConfig.pageSize).isEqualTo(HomeRepository.DEFAULT_LIST_SIZE)
+        assertThat(pager).isNotNull()
     }
 
     @Test

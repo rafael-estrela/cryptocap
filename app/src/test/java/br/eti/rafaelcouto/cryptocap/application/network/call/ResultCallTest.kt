@@ -2,7 +2,7 @@ package br.eti.rafaelcouto.cryptocap.application.network.call
 
 import br.eti.rafaelcouto.cryptocap.application.network.model.Body
 import br.eti.rafaelcouto.cryptocap.application.network.model.Result
-import br.eti.rafaelcouto.cryptocap.factory.BodyFactory
+import br.eti.rafaelcouto.cryptocap.testhelper.factory.BodyFactory
 import com.google.common.truth.Truth.assertThat
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -117,15 +117,17 @@ class ResultCallTest {
         every { mockResponse.isSuccessful }.returns(true)
         every { mockResponse.body() }.returns(null)
         every { mockResponse.errorBody() }.returns(mockErrorBody)
-        every { mockErrorBody.string() }.returns("{" +
-            "\"status\":{" +
-            "\"timestamp\":\"2021-07-06T19:10:23.466Z\"," +
-            "\"error_code\":1001," +
-            "\"error_message\":\"mock error.\"," +
-            "\"elapsed\":0," +
-            "\"credit_count\":0" +
-            "}" +
-            "}")
+        every { mockErrorBody.string() }.returns(
+            "{" +
+                "\"status\":{" +
+                "\"timestamp\":\"2021-07-06T19:10:23.466Z\"," +
+                "\"error_code\":1001," +
+                "\"error_message\":\"mock error.\"," +
+                "\"elapsed\":0," +
+                "\"credit_count\":0" +
+                "}" +
+                "}"
+        )
 
         every { mockCallback.onResponse(any(), any()) }.answers {
             val expectedResponse: Response<Result<String>> = Response.success(Result.error("mock error"))

@@ -22,17 +22,20 @@ class ResultAdapterFactory private constructor() : CallAdapter.Factory() {
         annotations: Array<out Annotation>,
         retrofit: Retrofit
     ): CallAdapter<*, *>? {
-        if (returnType !is ParameterizedType) return null
+        if (returnType is ParameterizedType) {
+            val wrapper = getParameterUpperBound(0, returnType)
 
-        val wrapper = getParameterUpperBound(0, returnType)
-        if (getRawType(wrapper) != Result::class.java) return null
+            if (getRawType(wrapper) == Result::class.java) {
+                if (wrapper !is ParameterizedType) throw IllegalStateException(NON_PARAMETERIZED_ERROR)
 
-        if (wrapper !is ParameterizedType) throw IllegalStateException(NON_PARAMETERIZED_ERROR)
+                val actualType = getParameterUpperBound(0, wrapper)
 
-        val actualType = getParameterUpperBound(0, wrapper)
+                val callType = Types.newParameterizedType(Body::class.java, actualType)
 
-        val callType = Types.newParameterizedType(Body::class.java, actualType)
+                return ResultCallAdapter<Any>(callType)
+            }
+        }
 
-        return ResultCallAdapter<Any>(callType)
+        return null
     }
 }

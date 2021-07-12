@@ -1,4 +1,4 @@
-package br.eti.rafaelcouto.cryptocap
+package br.eti.rafaelcouto.cryptocap.testhelper.rule
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
