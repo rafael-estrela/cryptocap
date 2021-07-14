@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -54,7 +54,8 @@ class HomeFragment : Fragment() {
     private fun setupRecycler() {
         listener = object : CryptoItemsAdapter.OnItemClickListener {
             override fun onItemClick(id: Long) {
-                Toast.makeText(requireContext(), "Selected $id", Toast.LENGTH_SHORT).show()
+                val directions = HomeFragmentDirections.fragmentHomeToFragmentDetails(id)
+                findNavController().navigate(directions)
             }
         }
 

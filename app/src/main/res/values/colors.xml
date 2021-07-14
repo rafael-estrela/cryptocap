@@ -10,6 +10,11 @@
 
     <color name="textColor">#212121</color>
 
+    <color name="iconTint">#1b1b1b</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="red500">#f44336</color>
+    <color name="green500">#4caf50</color>
 </resources>

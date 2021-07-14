@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="androidx.core.content.ContextCompat"/>
+
+        <variable
+            name="viewModel"
+            type="br.eti.rafaelcouto.cryptocap.viewmodel.CryptoDetailsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/secondaryLightColor">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clContent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:text="@{viewModel.content.name}"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextStyle.Large"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="Bitcoin (BTC)"/>
+
+            <ImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="@dimen/size_large"
+                android:layout_height="@dimen/size_large"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:contentDescription="@{@string/details_logo_content_description(viewModel.content.name)}"
+                app:layout_constraintTop_toBottomOf="@id/tvName"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:src="@drawable/ic_launcher_background"/>
+
+            <TextView
+                android:id="@+id/tvValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_tiny"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:text="@{viewModel.content.dollarPrice}"
+                android:textAppearance="@style/TextStyle.Standard"
+                app:layout_constraintTop_toTopOf="@id/ivLogo"
+                app:layout_constraintStart_toEndOf="@id/ivLogo"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="1 BTC = US$ 32,499.96"/>
+
+            <TextView
+                android:id="@+id/tvVariation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_marginStart="@dimen/spacing_tiny"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:text="@{viewModel.variation}"
+                android:textAppearance="@style/TextStyle.Standard"
+                android:textColor="@{viewModel.variationColor != 0 ? ContextCompat.getColor(context, viewModel.variationColor) : @color/textColor}"
+                app:layout_constraintTop_toBottomOf="@id/tvValue"
+                app:layout_constraintStart_toEndOf="@id/ivLogo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/ivLogo"
+                tools:text="-2.96493265%"/>
+
+            <RadioGroup
+                android:id="@+id/rgVariation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/ivLogo"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <RadioButton
+                    android:id="@+id/rbDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing_tiny"
+                    android:padding="0dp"
+                    android:gravity="center"
+                    android:background="@drawable/bg_radio_button"
+                    android:button="@android:color/transparent"
+                    android:text="@string/variation_day"
+                    android:checked="true"/>
+
+                <RadioButton
+                    android:id="@+id/rbWeek"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing_tiny"
+                    android:gravity="center"
+                    android:background="@drawable/bg_radio_button"
+                    android:button="@android:color/transparent"
+                    android:text="@string/variation_week"/>
+
+                <RadioButton
+                    android:id="@+id/rbMonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:background="@drawable/bg_radio_button"
+                    android:button="@android:color/transparent"
+                    android:text="@string/variation_month"/>
+
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_tiny"
+                android:text="@string/update_variation"
+                android:textAppearance="@style/TextStyle.Tiny"
+                app:layout_constraintTop_toTopOf="@id/rgVariation"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/rgVariation"
+                app:layout_constraintBottom_toBottomOf="@id/rgVariation"/>
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:layout_marginBottom="@dimen/spacing_small"
+                android:textAppearance="@style/TextStyle.Small"
+                android:text="@{viewModel.content.description}"
+                app:layout_constraintTop_toBottomOf="@id/rgVariation"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:text="Bitcoin (BTC) is a cryptocurrency . Users are able to generate BTC through the process of mining. Bitcoin has a current supply of 18,754,631. The last known price of Bitcoin is 32,906.01273372 USD and is down -3.03 over the last 24 hours. It is currently trading on 9018 active market(s) with $24,692,225,809.62 traded over the last 24 hours. More information can be found at https://bitcoin.org/."/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ProgressBar
+            android:id="@+id/pbLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/primaryDarkColor"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/tvError"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_standard"
+            android:layout_marginEnd="@dimen/spacing_standard"
+            android:text="@{viewModel.errorMessage}"
+            android:textAppearance="@style/TextStyle.Small"
+            android:textAlignment="center"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="Houve um erro"
+            tools:visibility="visible"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

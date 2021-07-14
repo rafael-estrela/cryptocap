@@ -9,4 +9,6 @@
     <color name="secondaryDarkColor">#373737</color>
 
     <color name="textColor">#fafafa</color>
+
+    <color name="iconTint">#fafafa</color>
 </resources>

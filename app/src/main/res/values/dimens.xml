@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="size_large">64dp</dimen>
+    <dimen name="size_semi">32dp</dimen>
+    <dimen name="size_standard">24dp</dimen>
+    <dimen name="size_small">16dp</dimen>
+
     <dimen name="spacing_x_large">64dp</dimen>
     <dimen name="spacing_large">48dp</dimen>
     <dimen name="spacing_semi">32dp</dimen>
@@ -16,4 +21,7 @@
     <dimen name="text_size_tiny">12sp</dimen>
 
     <dimen name="border_standard">1dp</dimen>
+    <dimen name="border_thick">2dp</dimen>
+
+    <dimen name="radius_large">8dp</dimen>
 </resources>
