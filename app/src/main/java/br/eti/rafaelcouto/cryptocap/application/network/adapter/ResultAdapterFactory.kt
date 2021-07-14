@@ -30,9 +30,16 @@ class ResultAdapterFactory private constructor() : CallAdapter.Factory() {
 
                 val actualType = getParameterUpperBound(0, wrapper)
 
-                val callType = Types.newParameterizedType(Body::class.java, actualType)
+                return if (getRawType(actualType) == List::class.java) {
+                    val callType = Types.newParameterizedType(Body::class.java, actualType)
 
-                return ResultCallAdapter<Any>(callType)
+                    ArrayCallAdapter<Any>(callType)
+                } else {
+                    val innerType = Types.newParameterizedType(Map::class.java, String::class.java, actualType)
+                    val callType = Types.newParameterizedType(Body::class.java, innerType)
+
+                    ObjectCallAdapter<Any>(callType)
+                }
             }
         }
 

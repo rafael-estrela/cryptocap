@@ -1,0 +1,153 @@
+{
+  "status":{
+    "timestamp":"2021-07-12T20:36:18.177Z",
+    "error_code":0,
+    "error_message":null,
+    "elapsed":33,
+    "credit_count":1,
+    "notice":null
+  },
+  "data":{
+    "1":{
+      "id":1,
+      "name":"Bitcoin",
+      "symbol":"BTC",
+      "category":"coin",
+      "description":"Bitcoin (BTC) is a cryptocurrency . Users are able to generate BTC through the process of mining. Bitcoin has a current supply of 18,754,631. The last known price of Bitcoin is 32,906.01273372 USD and is down -3.03 over the last 24 hours. It is currently trading on 9018 active market(s) with $24,692,225,809.62 traded over the last 24 hours. More information can be found at https://bitcoin.org/.",
+      "slug":"bitcoin",
+      "logo":"https://s2.coinmarketcap.com/static/img/coins/64x64/1.png",
+      "subreddit":"bitcoin",
+      "notice":"",
+      "tags":[
+        "mineable",
+        "pow",
+        "sha-256",
+        "store-of-value",
+        "state-channels",
+        "coinbase-ventures-portfolio",
+        "three-arrows-capital-portfolio",
+        "polychain-capital-portfolio",
+        "binance-labs-portfolio",
+        "arrington-xrp-capital",
+        "blockchain-capital-portfolio",
+        "boostvc-portfolio",
+        "cms-holdings-portfolio",
+        "dcg-portfolio",
+        "dragonfly-capital-portfolio",
+        "electric-capital-portfolio",
+        "fabric-ventures-portfolio",
+        "framework-ventures",
+        "galaxy-digital-portfolio",
+        "huobi-capital",
+        "alameda-research-portfolio",
+        "a16z-portfolio",
+        "1confirmation-portfolio",
+        "winklevoss-capital",
+        "usv-portfolio",
+        "placeholder-ventures-portfolio",
+        "pantera-capital-portfolio",
+        "multicoin-capital-portfolio",
+        "paradigm-xzy-screener"
+      ],
+      "tag-names":[
+        "Mineable",
+        "PoW",
+        "SHA-256",
+        "Store of Value",
+        "State channels",
+        "Coinbase Ventures Portfolio",
+        "Three Arrows Capital Portfolio",
+        "Polychain Capital Portfolio",
+        "Binance Labs Portfolio",
+        "Arrington XRP capital",
+        "Blockchain Capital Portfolio",
+        "BoostVC Portfolio",
+        "CMS Holdings Portfolio",
+        "DCG Portfolio",
+        "DragonFly Capital Portfolio",
+        "Electric Capital Portfolio",
+        "Fabric Ventures Portfolio",
+        "Framework Ventures",
+        "Galaxy Digital Portfolio",
+        "Huobi Capital",
+        "Alameda Research Portfolio",
+        "A16Z Portfolio",
+        "1Confirmation Portfolio",
+        "Winklevoss Capital",
+        "USV Portfolio",
+        "Placeholder Ventures Portfolio",
+        "Pantera Capital Portfolio",
+        "Multicoin Capital Portfolio",
+        "Paradigm XZY Screener"
+      ],
+      "tag-groups":[
+        "OTHER",
+        "CONSENSUS_ALGORITHM",
+        "CONSENSUS_ALGORITHM",
+        "PROPERTY",
+        "PROPERTY",
+        "PROPERTY",
+        "PROPERTY",
+        "PROPERTY",
+        "PROPERTY",
+        "PROPERTY",
+        "PROPERTY",
+        "PROPERTY",
+        "PROPERTY",
+        "PROPERTY",
+        "PROPERTY",
+        "PROPERTY",
+        "PROPERTY",
+        "PROPERTY",
+        "PROPERTY",
+        "PROPERTY",
+        "PROPERTY",
+        "PROPERTY",
+        "PROPERTY",
+        "PROPERTY",
+        "PROPERTY",
+        "PROPERTY",
+        "PROPERTY",
+        "PROPERTY",
+        "PROPERTY"
+      ],
+      "urls":{
+        "website":[
+          "https://bitcoin.org/"
+        ],
+        "twitter":[
+
+        ],
+        "message_board":[
+          "https://bitcointalk.org"
+        ],
+        "chat":[
+
+        ],
+        "explorer":[
+          "https://blockchain.coinmarketcap.com/chain/bitcoin",
+          "https://blockchain.info/",
+          "https://live.blockcypher.com/btc/",
+          "https://blockchair.com/bitcoin",
+          "https://explorer.viabtc.com/btc"
+        ],
+        "reddit":[
+          "https://reddit.com/r/bitcoin"
+        ],
+        "technical_doc":[
+          "https://bitcoin.org/bitcoin.pdf"
+        ],
+        "source_code":[
+          "https://github.com/bitcoin/"
+        ],
+        "announcement":[
+
+        ]
+      },
+      "platform":null,
+      "date_added":"2013-04-28T00:00:00.000Z",
+      "twitter_username":"",
+      "is_hidden":0
+    }
+  }
+}

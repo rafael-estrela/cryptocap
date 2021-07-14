@@ -12,5 +12,5 @@ class HomeRepository(
         const val DEFAULT_LIST_SIZE = 15
     }
 
-    override suspend fun fetchAll() = pager.flow
+    override fun fetchAll() = pager.flow
 }

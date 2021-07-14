@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface HomeUseCaseAbs {
 
-    suspend fun fetchAll(): Flow<PagingData<CryptoItemUI>>
+    fun fetchAll(): Flow<PagingData<CryptoItemUI>>
 }

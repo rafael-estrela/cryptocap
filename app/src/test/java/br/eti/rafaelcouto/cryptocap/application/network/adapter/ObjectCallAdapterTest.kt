@@ -1,6 +1,6 @@
 package br.eti.rafaelcouto.cryptocap.application.network.adapter
 
-import br.eti.rafaelcouto.cryptocap.application.network.call.ResultCall
+import br.eti.rafaelcouto.cryptocap.application.network.call.ObjectCall
 import br.eti.rafaelcouto.cryptocap.application.network.model.Body
 import com.google.common.truth.Truth.assertThat
 import io.mockk.MockKAnnotations
@@ -12,17 +12,17 @@ import org.junit.runners.JUnit4
 import retrofit2.Call
 
 @RunWith(JUnit4::class)
-class ResultCallAdapterTest {
+class ObjectCallAdapterTest {
 
-    @MockK private lateinit var mockCall: Call<Body<String>>
+    @MockK private lateinit var mockCall: Call<Body<Map<String, String>>>
 
-    private lateinit var sut: ResultCallAdapter<String>
+    private lateinit var sut: ObjectCallAdapter<String>
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
 
-        sut = ResultCallAdapter(responseType = String::class.java)
+        sut = ObjectCallAdapter(responseType = String::class.java)
     }
 
     @Test
@@ -36,6 +36,6 @@ class ResultCallAdapterTest {
     fun adaptCallTest() {
         val actual = sut.adapt(mockCall)
 
-        assertThat(actual).isInstanceOf(ResultCall::class.java)
+        assertThat(actual).isInstanceOf(ObjectCall::class.java)
     }
 }

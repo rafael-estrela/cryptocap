@@ -10,5 +10,5 @@ class HomeUseCase(
     private val cryptoItemMapper: CryptoItemMapperAbs
 ) : HomeUseCaseAbs {
 
-    override suspend fun fetchAll() = repository.fetchAll().map { cryptoItemMapper.map(it) }
+    override fun fetchAll() = repository.fetchAll().map { cryptoItemMapper.map(it) }
 }

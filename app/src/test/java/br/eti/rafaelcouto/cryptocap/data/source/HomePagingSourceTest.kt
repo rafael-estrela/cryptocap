@@ -30,7 +30,7 @@ class HomePagingSourceTest {
     fun setUp() {
         MockKAnnotations.init(this)
 
-        sut = HomePagingSource(mockApi)
+        sut = HomePagingSource(api = mockApi)
     }
 
     @Test

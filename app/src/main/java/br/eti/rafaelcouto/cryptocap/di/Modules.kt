@@ -7,15 +7,23 @@ import br.eti.rafaelcouto.cryptocap.BuildConfig
 import br.eti.rafaelcouto.cryptocap.application.network.RequestConstants
 import br.eti.rafaelcouto.cryptocap.application.network.adapter.ResultAdapterFactory
 import br.eti.rafaelcouto.cryptocap.application.network.interceptor.HeaderInterceptor
+import br.eti.rafaelcouto.cryptocap.data.api.CryptoDetailsApi
 import br.eti.rafaelcouto.cryptocap.data.api.HomeApi
 import br.eti.rafaelcouto.cryptocap.data.model.CryptoItem
+import br.eti.rafaelcouto.cryptocap.data.repository.CryptoDetailsRepository
 import br.eti.rafaelcouto.cryptocap.data.repository.HomeRepository
+import br.eti.rafaelcouto.cryptocap.data.repository.abs.CryptoDetailsRepositoryAbs
 import br.eti.rafaelcouto.cryptocap.data.repository.abs.HomeRepositoryAbs
 import br.eti.rafaelcouto.cryptocap.data.source.HomePagingSource
+import br.eti.rafaelcouto.cryptocap.domain.mapper.CryptoDetailsMapper
 import br.eti.rafaelcouto.cryptocap.domain.mapper.CryptoItemMapper
+import br.eti.rafaelcouto.cryptocap.domain.mapper.abs.CryptoDetailsMapperAbs
 import br.eti.rafaelcouto.cryptocap.domain.mapper.abs.CryptoItemMapperAbs
+import br.eti.rafaelcouto.cryptocap.domain.usecase.CryptoDetailsUseCase
 import br.eti.rafaelcouto.cryptocap.domain.usecase.HomeUseCase
+import br.eti.rafaelcouto.cryptocap.domain.usecase.abs.CryptoDetailsUseCaseAbs
 import br.eti.rafaelcouto.cryptocap.domain.usecase.abs.HomeUseCaseAbs
+import br.eti.rafaelcouto.cryptocap.viewmodel.CryptoDetailsViewModel
 import br.eti.rafaelcouto.cryptocap.viewmodel.HomeViewModel
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -68,6 +76,11 @@ object Modules {
             val retrofit: Retrofit = get()
             retrofit.create(HomeApi::class.java)
         }
+
+        single {
+            val retrofit: Retrofit = get()
+            retrofit.create(CryptoDetailsApi::class.java)
+        }
     }
 
     private val paging = module {
@@ -80,6 +93,7 @@ object Modules {
 
     private val repository = module {
         single<HomeRepositoryAbs> { HomeRepository(pager = get()) }
+        single<CryptoDetailsRepositoryAbs> { CryptoDetailsRepository(api = get()) }
     }
 
     private val useCase = module {
@@ -89,16 +103,23 @@ object Modules {
                 cryptoItemMapper = get()
             )
         }
+
+        single<CryptoDetailsUseCaseAbs> {
+            CryptoDetailsUseCase(
+                repository = get(),
+                mapper = get()
+            )
+        }
     }
 
     private val mapper = module {
         single<CryptoItemMapperAbs> { CryptoItemMapper() }
+        single<CryptoDetailsMapperAbs> { CryptoDetailsMapper() }
     }
 
     private val viewModel = module {
-        viewModel {
-            HomeViewModel(useCase = get())
-        }
+        viewModel { HomeViewModel(useCase = get()) }
+        viewModel { CryptoDetailsViewModel(useCase = get()) }
     }
 
     val all = listOf(network, api, paging, repository, useCase, mapper, viewModel)

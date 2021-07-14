@@ -57,20 +57,21 @@ class ResultAdapterFactoryTest {
     }
 
     @Test
-    fun getTypeAdapterTest() {
+    fun getObjectCallAdapterTest() {
         val innerType = Types.newParameterizedType(Result::class.java, String::class.java)
         val type = Types.newParameterizedType(Call::class.java, innerType)
 
-        val expectedType = Types.newParameterizedType(Body::class.java, String::class.java)
+        val expectedInnerType = Types.newParameterizedType(Map::class.java, String::class.java, String::class.java)
+        val expectedType = Types.newParameterizedType(Body::class.java, expectedInnerType)
         val actual = sut.get(type, arrayOf(), mockRetrofit)
 
         assertThat(actual).isNotNull()
-        assertThat(actual).isInstanceOf(ResultCallAdapter::class.java)
+        assertThat(actual).isInstanceOf(ObjectCallAdapter::class.java)
         assertThat(actual?.responseType()).isEqualTo(expectedType)
     }
 
     @Test
-    fun getNestedTypeAdapterTest() {
+    fun getArrayCallAdapterTest() {
         val mostInnerType = Types.newParameterizedType(List::class.java, String::class.java)
         val innerType = Types.newParameterizedType(Result::class.java, mostInnerType)
         val type = Types.newParameterizedType(Call::class.java, innerType)
@@ -79,7 +80,7 @@ class ResultAdapterFactoryTest {
         val actual = sut.get(type, arrayOf(), mockRetrofit)
 
         assertThat(actual).isNotNull()
-        assertThat(actual).isInstanceOf(ResultCallAdapter::class.java)
+        assertThat(actual).isInstanceOf(ArrayCallAdapter::class.java)
         assertThat(actual?.responseType()).isEqualTo(expectedType)
     }
 }

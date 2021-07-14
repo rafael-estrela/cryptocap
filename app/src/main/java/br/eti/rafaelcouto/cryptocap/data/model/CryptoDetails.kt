@@ -1,8 +1,9 @@
 package br.eti.rafaelcouto.cryptocap.data.model
 
-data class CryptoItem(
+data class CryptoDetails(
     val id: Long,
     val name: String,
     val symbol: String,
-    val quote: Quote
+    val description: String,
+    val logo: String
 )

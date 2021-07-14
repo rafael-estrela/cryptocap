@@ -6,15 +6,23 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
 import br.eti.rafaelcouto.cryptocap.application.network.adapter.ResultAdapterFactory
 import br.eti.rafaelcouto.cryptocap.application.network.interceptor.HeaderInterceptor
+import br.eti.rafaelcouto.cryptocap.data.api.CryptoDetailsApi
 import br.eti.rafaelcouto.cryptocap.data.api.HomeApi
 import br.eti.rafaelcouto.cryptocap.data.model.CryptoItem
+import br.eti.rafaelcouto.cryptocap.data.repository.CryptoDetailsRepository
 import br.eti.rafaelcouto.cryptocap.data.repository.HomeRepository
+import br.eti.rafaelcouto.cryptocap.data.repository.abs.CryptoDetailsRepositoryAbs
 import br.eti.rafaelcouto.cryptocap.data.repository.abs.HomeRepositoryAbs
 import br.eti.rafaelcouto.cryptocap.data.source.HomePagingSource
+import br.eti.rafaelcouto.cryptocap.domain.mapper.CryptoDetailsMapper
 import br.eti.rafaelcouto.cryptocap.domain.mapper.CryptoItemMapper
+import br.eti.rafaelcouto.cryptocap.domain.mapper.abs.CryptoDetailsMapperAbs
 import br.eti.rafaelcouto.cryptocap.domain.mapper.abs.CryptoItemMapperAbs
+import br.eti.rafaelcouto.cryptocap.domain.usecase.CryptoDetailsUseCase
 import br.eti.rafaelcouto.cryptocap.domain.usecase.HomeUseCase
+import br.eti.rafaelcouto.cryptocap.domain.usecase.abs.CryptoDetailsUseCaseAbs
 import br.eti.rafaelcouto.cryptocap.domain.usecase.abs.HomeUseCaseAbs
+import br.eti.rafaelcouto.cryptocap.viewmodel.CryptoDetailsViewModel
 import br.eti.rafaelcouto.cryptocap.viewmodel.HomeViewModel
 import com.google.common.truth.Truth.assertThat
 import io.mockk.mockkClass
@@ -73,8 +81,10 @@ class ModulesTest : KoinTest {
     @Test
     fun apiModulesTest() {
         val homeApi: HomeApi by inject()
+        val detailsApi: CryptoDetailsApi by inject()
 
         assertThat(homeApi).isNotNull()
+        assertThat(detailsApi).isNotNull()
     }
 
     @Test
@@ -92,28 +102,36 @@ class ModulesTest : KoinTest {
     @Test
     fun repositoryModulesTest() {
         val homeRepository: HomeRepositoryAbs by inject()
+        val cryptoDetailsRepository: CryptoDetailsRepositoryAbs by inject()
 
         assertThat(homeRepository).isInstanceOf(HomeRepository::class.java)
+        assertThat(cryptoDetailsRepository).isInstanceOf(CryptoDetailsRepository::class.java)
     }
 
     @Test
     fun useCaseModulesTest() {
         val homeUseCase: HomeUseCaseAbs by inject()
+        val detailsUseCase: CryptoDetailsUseCaseAbs by inject()
 
         assertThat(homeUseCase).isInstanceOf(HomeUseCase::class.java)
+        assertThat(detailsUseCase).isInstanceOf(CryptoDetailsUseCase::class.java)
     }
 
     @Test
     fun mapperModulesTest() {
         val cryptoItemMapper: CryptoItemMapperAbs by inject()
+        val cryptoDetailsMapper: CryptoDetailsMapperAbs by inject()
 
         assertThat(cryptoItemMapper).isInstanceOf(CryptoItemMapper::class.java)
+        assertThat(cryptoDetailsMapper).isInstanceOf(CryptoDetailsMapper::class.java)
     }
 
     @Test
     fun viewModelModulesTest() {
         val homeViewModel: HomeViewModel by inject()
+        val cryptoDetailsViewModel: CryptoDetailsViewModel by inject()
 
         assertThat(homeViewModel).isNotNull()
+        assertThat(cryptoDetailsViewModel).isNotNull()
     }
 }

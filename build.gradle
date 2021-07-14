@@ -16,6 +16,8 @@ buildscript {
         cardview      : '1.0.0',
         paging        : '3.0.0',
 
+        glide         : '4.12.0',
+
         ktlint        : '0.41.0',
 
         retrofit      : '2.9.0',

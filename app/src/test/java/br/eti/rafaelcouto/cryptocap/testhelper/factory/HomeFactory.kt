@@ -1,7 +1,7 @@
 package br.eti.rafaelcouto.cryptocap.testhelper.factory
 
 import br.eti.rafaelcouto.cryptocap.data.model.CryptoItem
-import br.eti.rafaelcouto.cryptocap.data.model.QuoteItem
+import br.eti.rafaelcouto.cryptocap.data.model.Quote
 import br.eti.rafaelcouto.cryptocap.domain.model.CryptoItemUI
 import kotlin.random.Random
 
@@ -16,8 +16,13 @@ object HomeFactory {
         quote = quote
     )
 
-    val quote get() = CryptoItem.Quote(usdQuote = quoteItem)
-    val quoteItem get() = QuoteItem(price = 1412.09, dayVariation = 51.33)
+    val quote get() = Quote(usdQuote = quoteItem)
+    val quoteItem get() = Quote.Item(
+        price = 1412.09,
+        dayVariation = 51.33,
+        weekVariation = 0.378978,
+        monthVariation = -12.7
+    )
 
     val cryptoListUI get() = listOf(cryptoItemUI, cryptoItemUI, cryptoItemUI, cryptoItemUI, cryptoItemUI)
 
