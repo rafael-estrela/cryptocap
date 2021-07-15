@@ -14,14 +14,19 @@ import br.eti.rafaelcouto.cryptocap.data.repository.HomeRepository
 import br.eti.rafaelcouto.cryptocap.data.repository.abs.CryptoDetailsRepositoryAbs
 import br.eti.rafaelcouto.cryptocap.data.repository.abs.HomeRepositoryAbs
 import br.eti.rafaelcouto.cryptocap.data.source.HomePagingSource
+import br.eti.rafaelcouto.cryptocap.domain.mapper.CryptoCompareMapper
 import br.eti.rafaelcouto.cryptocap.domain.mapper.CryptoDetailsMapper
 import br.eti.rafaelcouto.cryptocap.domain.mapper.CryptoItemMapper
+import br.eti.rafaelcouto.cryptocap.domain.mapper.abs.CryptoCompareMapperAbs
 import br.eti.rafaelcouto.cryptocap.domain.mapper.abs.CryptoDetailsMapperAbs
 import br.eti.rafaelcouto.cryptocap.domain.mapper.abs.CryptoItemMapperAbs
+import br.eti.rafaelcouto.cryptocap.domain.usecase.CryptoCompareUseCase
 import br.eti.rafaelcouto.cryptocap.domain.usecase.CryptoDetailsUseCase
 import br.eti.rafaelcouto.cryptocap.domain.usecase.HomeUseCase
+import br.eti.rafaelcouto.cryptocap.domain.usecase.abs.CryptoCompareUseCaseAbs
 import br.eti.rafaelcouto.cryptocap.domain.usecase.abs.CryptoDetailsUseCaseAbs
 import br.eti.rafaelcouto.cryptocap.domain.usecase.abs.HomeUseCaseAbs
+import br.eti.rafaelcouto.cryptocap.viewmodel.CryptoCompareViewModel
 import br.eti.rafaelcouto.cryptocap.viewmodel.CryptoDetailsViewModel
 import br.eti.rafaelcouto.cryptocap.viewmodel.HomeViewModel
 import com.google.common.truth.Truth.assertThat
@@ -112,26 +117,32 @@ class ModulesTest : KoinTest {
     fun useCaseModulesTest() {
         val homeUseCase: HomeUseCaseAbs by inject()
         val detailsUseCase: CryptoDetailsUseCaseAbs by inject()
+        val compareUseCase: CryptoCompareUseCaseAbs by inject()
 
         assertThat(homeUseCase).isInstanceOf(HomeUseCase::class.java)
         assertThat(detailsUseCase).isInstanceOf(CryptoDetailsUseCase::class.java)
+        assertThat(compareUseCase).isInstanceOf(CryptoCompareUseCase::class.java)
     }
 
     @Test
     fun mapperModulesTest() {
         val cryptoItemMapper: CryptoItemMapperAbs by inject()
         val cryptoDetailsMapper: CryptoDetailsMapperAbs by inject()
+        val cryptoCompareMapper: CryptoCompareMapperAbs by inject()
 
         assertThat(cryptoItemMapper).isInstanceOf(CryptoItemMapper::class.java)
         assertThat(cryptoDetailsMapper).isInstanceOf(CryptoDetailsMapper::class.java)
+        assertThat(cryptoCompareMapper).isInstanceOf(CryptoCompareMapper::class.java)
     }
 
     @Test
     fun viewModelModulesTest() {
         val homeViewModel: HomeViewModel by inject()
         val cryptoDetailsViewModel: CryptoDetailsViewModel by inject()
+        val cryptoCompareViewModel: CryptoCompareViewModel by inject()
 
         assertThat(homeViewModel).isNotNull()
         assertThat(cryptoDetailsViewModel).isNotNull()
+        assertThat(cryptoCompareViewModel).isNotNull()
     }
 }

@@ -10,13 +10,14 @@ import br.eti.rafaelcouto.cryptocap.ext.asPercentage
 
 class CryptoDetailsMapper : CryptoDetailsMapperAbs {
 
-    override fun map(details: Result<CryptoDetails>, quotes: Result<QuoteDetails>): Result<CryptoDetailsUI> {
-        return details.data?.let { detailsData ->
-            quotes.data?.let { quotesData ->
-                Result.success(mapData(detailsData, quotesData))
-            } ?: Result.error(quotes.error.orEmpty())
-        } ?: Result.error(details.error.orEmpty())
-    }
+    override fun map(
+        details: Result<CryptoDetails>,
+        quotes: Result<QuoteDetails>
+    ) = details.data?.let { detailsData ->
+        quotes.data?.let { quotesData ->
+            Result.success(mapData(detailsData, quotesData))
+        } ?: Result.error(quotes.error.orEmpty())
+    } ?: Result.error(details.error.orEmpty())
 
     private fun mapData(details: CryptoDetails, quotes: QuoteDetails) = CryptoDetailsUI(
         details.id,

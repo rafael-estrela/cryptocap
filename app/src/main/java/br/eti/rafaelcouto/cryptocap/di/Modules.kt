@@ -15,14 +15,19 @@ import br.eti.rafaelcouto.cryptocap.data.repository.HomeRepository
 import br.eti.rafaelcouto.cryptocap.data.repository.abs.CryptoDetailsRepositoryAbs
 import br.eti.rafaelcouto.cryptocap.data.repository.abs.HomeRepositoryAbs
 import br.eti.rafaelcouto.cryptocap.data.source.HomePagingSource
+import br.eti.rafaelcouto.cryptocap.domain.mapper.CryptoCompareMapper
 import br.eti.rafaelcouto.cryptocap.domain.mapper.CryptoDetailsMapper
 import br.eti.rafaelcouto.cryptocap.domain.mapper.CryptoItemMapper
+import br.eti.rafaelcouto.cryptocap.domain.mapper.abs.CryptoCompareMapperAbs
 import br.eti.rafaelcouto.cryptocap.domain.mapper.abs.CryptoDetailsMapperAbs
 import br.eti.rafaelcouto.cryptocap.domain.mapper.abs.CryptoItemMapperAbs
+import br.eti.rafaelcouto.cryptocap.domain.usecase.CryptoCompareUseCase
 import br.eti.rafaelcouto.cryptocap.domain.usecase.CryptoDetailsUseCase
 import br.eti.rafaelcouto.cryptocap.domain.usecase.HomeUseCase
+import br.eti.rafaelcouto.cryptocap.domain.usecase.abs.CryptoCompareUseCaseAbs
 import br.eti.rafaelcouto.cryptocap.domain.usecase.abs.CryptoDetailsUseCaseAbs
 import br.eti.rafaelcouto.cryptocap.domain.usecase.abs.HomeUseCaseAbs
+import br.eti.rafaelcouto.cryptocap.viewmodel.CryptoCompareViewModel
 import br.eti.rafaelcouto.cryptocap.viewmodel.CryptoDetailsViewModel
 import br.eti.rafaelcouto.cryptocap.viewmodel.HomeViewModel
 import okhttp3.Interceptor
@@ -110,16 +115,25 @@ object Modules {
                 mapper = get()
             )
         }
+
+        single<CryptoCompareUseCaseAbs> {
+            CryptoCompareUseCase(
+                repository = get(),
+                mapper = get()
+            )
+        }
     }
 
     private val mapper = module {
         single<CryptoItemMapperAbs> { CryptoItemMapper() }
         single<CryptoDetailsMapperAbs> { CryptoDetailsMapper() }
+        single<CryptoCompareMapperAbs> { CryptoCompareMapper() }
     }
 
     private val viewModel = module {
         viewModel { HomeViewModel(useCase = get()) }
         viewModel { CryptoDetailsViewModel(useCase = get()) }
+        viewModel { CryptoCompareViewModel(useCase = get()) }
     }
 
     val all = listOf(network, api, paging, repository, useCase, mapper, viewModel)

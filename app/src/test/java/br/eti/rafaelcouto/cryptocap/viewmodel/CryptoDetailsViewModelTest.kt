@@ -11,6 +11,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
@@ -36,7 +37,7 @@ class CryptoDetailsViewModelTest {
     fun setUp() {
         MockKAnnotations.init(this)
 
-        sut = CryptoDetailsViewModel(useCase = mockUseCase)
+        sut = CryptoDetailsViewModel(useCase = mockUseCase, dispatcher = Dispatchers.Main)
 
         sut.status.observeForever { stateSequence.add(it) }
         sut.errorMessage.observeForever {}
@@ -49,7 +50,7 @@ class CryptoDetailsViewModelTest {
 
     @Test
     fun loadDataSuccessTest() = runBlocking {
-        val expected = DetailsFactory.idemDetailsUi
+        val expected = DetailsFactory.itemDetailsUi
         every { mockUseCase.fetchDetails(any()) }.returns(flowOf(Result.success(expected)))
 
         assertThat(sut.content.value).isNull()
@@ -94,7 +95,7 @@ class CryptoDetailsViewModelTest {
 
     @Test
     fun updateSelectionSuccessTest() = runBlocking {
-        val expected = DetailsFactory.idemDetailsUi
+        val expected = DetailsFactory.itemDetailsUi
         every { mockUseCase.fetchDetails(any()) }.returns(flowOf(Result.success(expected)))
 
         sut.loadData(1)
@@ -123,14 +124,12 @@ class CryptoDetailsViewModelTest {
         val variationSequence = mutableListOf<String>()
         sut.variation.observeForever { variationSequence.add(it) }
 
-        val expected = DetailsFactory.idemDetailsUi
+        val expected = DetailsFactory.itemDetailsUi
         every { mockUseCase.fetchDetails(any()) }.returns(flowOf(Result.success(expected)))
 
         assertThat(variationSequence).isEmpty()
 
         sut.loadData(1)
-
-        verify { mockUseCase.fetchDetails(1) }
 
         assertThat(sut.variation.value).isEqualTo(expected.dayVariation)
         assertThat(variationSequence).hasSize(1)

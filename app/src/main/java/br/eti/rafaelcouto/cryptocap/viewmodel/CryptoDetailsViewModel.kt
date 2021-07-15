@@ -5,13 +5,15 @@ import br.eti.rafaelcouto.cryptocap.R
 import br.eti.rafaelcouto.cryptocap.application.network.model.Result
 import br.eti.rafaelcouto.cryptocap.domain.model.CryptoDetailsUI
 import br.eti.rafaelcouto.cryptocap.domain.usecase.abs.CryptoDetailsUseCaseAbs
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
 class CryptoDetailsViewModel(
-    private val useCase: CryptoDetailsUseCaseAbs
+    private val useCase: CryptoDetailsUseCaseAbs,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
 
     private val data = MutableLiveData<Result<CryptoDetailsUI>>()
@@ -41,7 +43,7 @@ class CryptoDetailsViewModel(
     fun loadData(id: Long) = viewModelScope.launch {
         data.value = Result.loading()
 
-        useCase.fetchDetails(id).flowOn(Dispatchers.IO).collect { data.value = it }
+        useCase.fetchDetails(id).flowOn(dispatcher).collect { data.value = it }
     }
 
     fun updateSelection(selectionId: Int) {

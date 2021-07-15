@@ -41,7 +41,7 @@ class CryptoDetailsUseCaseTest {
         coEvery { mockRepository.fetchDetails(any()) }.returns(flowOf(detailsInput))
         coEvery { mockRepository.fetchQuotes(any()) }.returns(flowOf(quotesInput))
 
-        val expected = DetailsFactory.idemDetailsUi
+        val expected = DetailsFactory.itemDetailsUi
 
         every { mockMapper.map(any(), any()) }.returns(Result.success(expected))
 
@@ -57,53 +57,7 @@ class CryptoDetailsUseCaseTest {
     }
 
     @Test
-    fun fetchDetailsErrorTest() = runBlocking {
-        val detailsInput = Result.error<CryptoDetails>("details error")
-        val quotesInput = Result.success(DetailsFactory.itemQuotes)
-
-        coEvery { mockRepository.fetchDetails(any()) }.returns(flowOf(detailsInput))
-        coEvery { mockRepository.fetchQuotes(any()) }.returns(flowOf(quotesInput))
-
-        val expected = "details error"
-
-        every { mockMapper.map(any(), any()) }.returns(Result.error(expected))
-
-        sut.fetchDetails(1).collect { actual ->
-            assertThat(actual.status).isEqualTo(Result.Status.ERROR)
-            assertThat(actual.data).isNull()
-            assertThat(actual.error).isEqualTo(expected)
-        }
-
-        coVerify { mockRepository.fetchDetails(1) }
-        coVerify { mockRepository.fetchQuotes(1) }
-        verify { mockMapper.map(detailsInput, quotesInput) }
-    }
-
-    @Test
-    fun fetchQuotesErrorTest() = runBlocking {
-        val detailsInput = Result.success(DetailsFactory.itemDetails)
-        val quotesInput = Result.error<QuoteDetails>("quote error")
-
-        coEvery { mockRepository.fetchDetails(any()) }.returns(flowOf(detailsInput))
-        coEvery { mockRepository.fetchQuotes(any()) }.returns(flowOf(quotesInput))
-
-        val expected = "quote error"
-
-        every { mockMapper.map(any(), any()) }.returns(Result.error(expected))
-
-        sut.fetchDetails(1).collect { actual ->
-            assertThat(actual.status).isEqualTo(Result.Status.ERROR)
-            assertThat(actual.data).isNull()
-            assertThat(actual.error).isEqualTo(expected)
-        }
-
-        coVerify { mockRepository.fetchDetails(1) }
-        coVerify { mockRepository.fetchQuotes(1) }
-        verify { mockMapper.map(detailsInput, quotesInput) }
-    }
-
-    @Test
-    fun fetchDoubleErrorTest() = runBlocking {
+    fun fetchErrorTest() = runBlocking {
         val detailsInput = Result.error<CryptoDetails>("details error")
         val quotesInput = Result.error<QuoteDetails>("quote error")
 

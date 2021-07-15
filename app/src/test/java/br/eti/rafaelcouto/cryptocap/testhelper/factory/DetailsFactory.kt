@@ -21,7 +21,7 @@ object DetailsFactory {
 
     val itemQuotes get() = QuoteDetails(HomeFactory.quote)
 
-    val idemDetailsUi get() = CryptoDetailsUI(
+    val itemDetailsUi get() = CryptoDetailsUI(
         Random.nextLong(),
         "Bitcoin (BTC)",
         "Bitcoin (BTC) is a cryptocurrency . Users are able to generate BTC through the " +
