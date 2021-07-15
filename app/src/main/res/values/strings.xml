@@ -2,10 +2,14 @@
     <string name="app_name">CryptoCap</string>
     <string name="home_title">Home</string>
     <string name="details_title">Detalhes</string>
+    <string name="compare_selection_title">Comparar com</string>
+    <string name="compare_title">Comparar</string>
     <string name="details_logo_content_description">Logo da criptomoeda %1$s</string>
     <string name="retry">Tentar novamente</string>
     <string name="update_variation">Período de variação</string>
     <string name="variation_day">24h</string>
     <string name="variation_week">7d</string>
     <string name="variation_month">30d</string>
+    <string name="equal_symbol">=</string>
+    <string name="swap">Inverter</string>
 </resources>

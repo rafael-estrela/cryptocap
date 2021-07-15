@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
@@ -13,8 +12,13 @@
         android:label="@string/home_title"
         tools:layout="@layout/fragment_home">
 
+        <argument
+            android:name="isComparing"
+            android:defaultValue="false"
+            app:argType="boolean"/>
+
         <action
-            android:id="@+id/fragment_home_to_fragment_details"
+            android:id="@+id/fragmentHome_to_fragmentDetails"
             app:destination="@id/fragment_details" />
     </fragment>
 
@@ -27,6 +31,39 @@
         <argument
             android:name="id"
             app:argType="long"/>
+
+        <action
+            android:id="@+id/fragmentDetails_to_fragmentCompare"
+            app:destination="@id/fragment_compare" />
+
+        <action
+            android:id="@+id/fragmentDetails_to_fragmentCompareSelect"
+            app:destination="@id/fragment_compare_select" />
     </fragment>
 
+    <fragment
+        android:id="@+id/fragment_compare_select"
+        android:name="br.eti.rafaelcouto.cryptocap.view.home.HomeFragment"
+        android:label="@string/compare_selection_title"
+        tools:layout="@layout/fragment_home">
+
+        <argument
+            android:name="isComparing"
+            app:argType="boolean"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_compare"
+        android:name="br.eti.rafaelcouto.cryptocap.view.compare.CryptoCompareFragment"
+        android:label="@string/compare_title"
+        tools:layout="@layout/fragment_crypto_compare">
+
+        <argument
+            android:name="fromId"
+            app:argType="long"/>
+
+        <argument
+            android:name="toId"
+            app:argType="long"/>
+    </fragment>
 </navigation>

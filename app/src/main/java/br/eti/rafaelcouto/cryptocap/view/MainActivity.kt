@@ -1,14 +1,15 @@
-package br.eti.rafaelcouto.cryptocap
+package br.eti.rafaelcouto.cryptocap.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import br.eti.rafaelcouto.cryptocap.R
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var navHost: NavHostFragment
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,17 +19,17 @@ class MainActivity : AppCompatActivity() {
         setupLayout()
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = navHost.navController
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
     private fun setupLayout() {
-        val navHost = supportFragmentManager.findFragmentById(R.id.fcvContent) as NavHostFragment
+        navHost = supportFragmentManager.findFragmentById(R.id.fcvContent) as NavHostFragment
         val navController = navHost.navController
 
         appBarConfiguration = AppBarConfiguration(navController.graph)
 
         setupActionBarWithNavController(navController, appBarConfiguration)
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.fcvContent)
-        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }

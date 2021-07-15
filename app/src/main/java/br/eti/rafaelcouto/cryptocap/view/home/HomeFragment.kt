@@ -4,13 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.eti.rafaelcouto.cryptocap.databinding.FragmentHomeBinding
+import br.eti.rafaelcouto.cryptocap.view.details.CryptoDetailsFragment
 import br.eti.rafaelcouto.cryptocap.viewmodel.HomeViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -23,6 +28,12 @@ class HomeFragment : Fragment() {
     private var listener: CryptoItemsAdapter.OnItemClickListener? = null
 
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var navController: NavController
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(false)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +54,7 @@ class HomeFragment : Fragment() {
         setupRecycler()
         setupObservers()
 
+        navController = findNavController()
         homeViewModel.loadData()
     }
 
@@ -53,10 +65,7 @@ class HomeFragment : Fragment() {
 
     private fun setupRecycler() {
         listener = object : CryptoItemsAdapter.OnItemClickListener {
-            override fun onItemClick(id: Long) {
-                val directions = HomeFragmentDirections.fragmentHomeToFragmentDetails(id)
-                findNavController().navigate(directions)
-            }
+            override fun onItemClick(id: Long) = handleOnClickEvent(id)
         }
 
         cryptoAdapter.onItemClickListener = listener
@@ -72,12 +81,27 @@ class HomeFragment : Fragment() {
             setHasFixedSize(true)
         }
 
+
         cryptoAdapter.submitData(lifecycle, PagingData.empty())
     }
 
     private fun setupObservers() {
         homeViewModel.data.observe(viewLifecycleOwner) {
             cryptoAdapter.submitData(lifecycle, it)
+        }
+    }
+
+    private fun handleOnClickEvent(id: Long) {
+        val args by navArgs<HomeFragmentArgs>()
+
+        if (args.isComparing) {
+            val result = bundleOf(CryptoDetailsFragment.SELECTED_ID_KEY to id)
+            setFragmentResult(CryptoDetailsFragment.RESULT_KEY, result)
+
+            navController.navigateUp()
+        } else {
+            val directions = HomeFragmentDirections.fragmentHomeToFragmentDetails(id)
+            navController.navigate(directions)
         }
     }
 }

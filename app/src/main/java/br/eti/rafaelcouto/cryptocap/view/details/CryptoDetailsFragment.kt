@@ -1,11 +1,12 @@
 package br.eti.rafaelcouto.cryptocap.view.details
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import br.eti.rafaelcouto.cryptocap.R
 import br.eti.rafaelcouto.cryptocap.application.network.model.Result
@@ -16,8 +17,22 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CryptoDetailsFragment : Fragment() {
 
+    companion object {
+        const val RESULT_KEY = "compare_select_results"
+        const val SELECTED_ID_KEY = "compare_selected_id"
+    }
+
     private val detailsViewModel: CryptoDetailsViewModel by viewModel()
+    private val args by navArgs<CryptoDetailsFragmentArgs>()
+
+    private lateinit var navController: NavController
     private lateinit var binding: FragmentCryptoDetailsBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setupBehavior()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,7 +52,38 @@ class CryptoDetailsFragment : Fragment() {
 
         setupLayout()
         setupObservers()
-        loadData()
+
+        navController = findNavController()
+        detailsViewModel.loadData(args.id)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+
+        inflater.inflate(R.menu.details_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.fragment_compare_select -> {
+            val directions = CryptoDetailsFragmentDirections.fragmentDetailsToFragmentCompareSelect(true)
+            navController.navigate(directions)
+
+            true
+        }
+
+        else -> super.onOptionsItemSelected(item)
+    }
+
+    private fun setupBehavior() {
+        setHasOptionsMenu(true)
+
+        setFragmentResultListener(RESULT_KEY) { _, data ->
+            val fromId = args.id
+            val toId = data.getLong(SELECTED_ID_KEY)
+
+            val directions = CryptoDetailsFragmentDirections.fragmentDetailsToFragmentCompare(fromId, toId)
+            navController.navigate(directions)
+        }
     }
 
     private fun setupLayout() {
@@ -64,11 +110,5 @@ class CryptoDetailsFragment : Fragment() {
                     .into(binding.ivLogo)
             }
         }
-    }
-
-    private fun loadData() {
-        val args by navArgs<CryptoDetailsFragmentArgs>()
-
-        detailsViewModel.loadData(args.id)
     }
 }
