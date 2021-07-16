@@ -1,19 +1,21 @@
-package br.eti.rafaelcouto.cryptocap.view.details
+package br.eti.rafaelcouto.cryptocap.view.fragment
 
 import android.os.Bundle
 import android.view.*
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import br.eti.rafaelcouto.cryptocap.R
 import br.eti.rafaelcouto.cryptocap.application.network.model.Result
 import br.eti.rafaelcouto.cryptocap.databinding.FragmentCryptoDetailsBinding
+import br.eti.rafaelcouto.cryptocap.router.abs.CryptoDetailsRouterAbs
+import br.eti.rafaelcouto.cryptocap.view.details.CryptoDetailsFragmentArgs
 import br.eti.rafaelcouto.cryptocap.viewmodel.CryptoDetailsViewModel
 import com.bumptech.glide.Glide
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class CryptoDetailsFragment : Fragment() {
 
@@ -23,9 +25,9 @@ class CryptoDetailsFragment : Fragment() {
     }
 
     private val detailsViewModel: CryptoDetailsViewModel by viewModel()
+    private val router: CryptoDetailsRouterAbs by inject { parametersOf(findNavController()) }
     private val args by navArgs<CryptoDetailsFragmentArgs>()
 
-    private lateinit var navController: NavController
     private lateinit var binding: FragmentCryptoDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +55,6 @@ class CryptoDetailsFragment : Fragment() {
         setupLayout()
         setupObservers()
 
-        navController = findNavController()
         detailsViewModel.loadData(args.id)
     }
 
@@ -72,8 +73,7 @@ class CryptoDetailsFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.item_compare -> {
-            val directions = CryptoDetailsFragmentDirections.fragmentDetailsToFragmentCompareSelect(true)
-            navController.navigate(directions)
+            router.goToCompareSelection()
 
             true
         }
@@ -93,8 +93,7 @@ class CryptoDetailsFragment : Fragment() {
             val fromId = args.id
             val toId = data.getLong(SELECTED_ID_KEY)
 
-            val directions = CryptoDetailsFragmentDirections.fragmentDetailsToFragmentCompare(fromId, toId)
-            navController.navigate(directions)
+            router.goToCompare(fromId, toId)
         }
     }
 

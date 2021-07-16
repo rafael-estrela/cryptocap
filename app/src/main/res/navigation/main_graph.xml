@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/fragment_home"
-        android:name="br.eti.rafaelcouto.cryptocap.view.home.HomeFragment"
+        android:name="br.eti.rafaelcouto.cryptocap.view.fragment.HomeFragment"
         android:label="@string/home_title"
         tools:layout="@layout/fragment_home">
 
@@ -24,7 +24,7 @@
 
     <fragment
         android:id="@+id/fragment_details"
-        android:name="br.eti.rafaelcouto.cryptocap.view.details.CryptoDetailsFragment"
+        android:name="br.eti.rafaelcouto.cryptocap.view.fragment.CryptoDetailsFragment"
         android:label="@string/details_title"
         tools:layout="@layout/fragment_crypto_details">
 
@@ -43,7 +43,7 @@
 
     <fragment
         android:id="@+id/fragment_compare_select"
-        android:name="br.eti.rafaelcouto.cryptocap.view.home.HomeFragment"
+        android:name="br.eti.rafaelcouto.cryptocap.view.fragment.HomeFragment"
         android:label="@string/compare_selection_title"
         tools:layout="@layout/fragment_home">
 
@@ -54,7 +54,7 @@
 
     <fragment
         android:id="@+id/fragment_compare"
-        android:name="br.eti.rafaelcouto.cryptocap.view.compare.CryptoCompareFragment"
+        android:name="br.eti.rafaelcouto.cryptocap.view.fragment.CryptoCompareFragment"
         android:label="@string/compare_title"
         tools:layout="@layout/fragment_crypto_compare">
 

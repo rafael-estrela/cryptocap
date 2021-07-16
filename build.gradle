@@ -10,7 +10,7 @@ buildscript {
 
         navigation    : '2.3.5',
 
-        material      : '1.3.0',
+        material      : '1.4.0',
         constraint    : '2.0.4',
         recyclerview  : '1.2.1',
         cardview      : '1.0.0',

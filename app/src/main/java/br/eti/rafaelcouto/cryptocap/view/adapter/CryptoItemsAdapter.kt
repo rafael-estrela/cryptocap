@@ -1,4 +1,4 @@
-package br.eti.rafaelcouto.cryptocap.view.home
+package br.eti.rafaelcouto.cryptocap.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,7 +10,9 @@ import br.eti.rafaelcouto.cryptocap.R
 import br.eti.rafaelcouto.cryptocap.databinding.RowCryptoItemBinding
 import br.eti.rafaelcouto.cryptocap.domain.model.CryptoItemUI
 
-class CryptoItemsAdapter : PagingDataAdapter<CryptoItemUI, CryptoItemsAdapter.ViewHolder>(CryptoItemComparator) {
+class CryptoItemsAdapter : PagingDataAdapter<CryptoItemUI, CryptoItemsAdapter.ViewHolder>(
+    CryptoItemComparator
+) {
 
     var onItemClickListener: OnItemClickListener? = null
 

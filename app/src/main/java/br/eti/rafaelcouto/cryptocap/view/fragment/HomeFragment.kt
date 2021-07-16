@@ -1,4 +1,4 @@
-package br.eti.rafaelcouto.cryptocap.view.home
+package br.eti.rafaelcouto.cryptocap.view.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.PagingData
@@ -15,20 +14,26 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.eti.rafaelcouto.cryptocap.databinding.FragmentHomeBinding
-import br.eti.rafaelcouto.cryptocap.view.details.CryptoDetailsFragment
+import br.eti.rafaelcouto.cryptocap.router.abs.HomeRouterAbs
+import br.eti.rafaelcouto.cryptocap.view.adapter.CryptoItemsAdapter
+import br.eti.rafaelcouto.cryptocap.view.adapter.CryptoItemsLoadStateAdapter
+import br.eti.rafaelcouto.cryptocap.view.home.HomeFragmentArgs
 import br.eti.rafaelcouto.cryptocap.viewmodel.HomeViewModel
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class HomeFragment : Fragment() {
 
     private val homeViewModel: HomeViewModel by viewModel()
+    private val router: HomeRouterAbs by inject { parametersOf(findNavController()) }
+
     private val cryptoAdapter = CryptoItemsAdapter()
     private val headerAdapter = CryptoItemsLoadStateAdapter { cryptoAdapter.retry() }
     private val footerAdapter = CryptoItemsLoadStateAdapter { cryptoAdapter.retry() }
     private var listener: CryptoItemsAdapter.OnItemClickListener? = null
 
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +59,6 @@ class HomeFragment : Fragment() {
         setupRecycler()
         setupObservers()
 
-        navController = findNavController()
         homeViewModel.loadData()
     }
 
@@ -97,10 +101,9 @@ class HomeFragment : Fragment() {
             val result = bundleOf(CryptoDetailsFragment.SELECTED_ID_KEY to id)
             setFragmentResult(CryptoDetailsFragment.RESULT_KEY, result)
 
-            navController.navigateUp()
+            router.goBack()
         } else {
-            val directions = HomeFragmentDirections.fragmentHomeToFragmentDetails(id)
-            navController.navigate(directions)
+            router.goToDetails(id)
         }
     }
 }

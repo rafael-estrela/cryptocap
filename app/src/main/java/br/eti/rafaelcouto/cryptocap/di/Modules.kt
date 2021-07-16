@@ -29,6 +29,10 @@ import br.eti.rafaelcouto.cryptocap.domain.usecase.HomeUseCase
 import br.eti.rafaelcouto.cryptocap.domain.usecase.abs.CryptoCompareUseCaseAbs
 import br.eti.rafaelcouto.cryptocap.domain.usecase.abs.CryptoDetailsUseCaseAbs
 import br.eti.rafaelcouto.cryptocap.domain.usecase.abs.HomeUseCaseAbs
+import br.eti.rafaelcouto.cryptocap.router.CryptoDetailsRouter
+import br.eti.rafaelcouto.cryptocap.router.HomeRouter
+import br.eti.rafaelcouto.cryptocap.router.abs.CryptoDetailsRouterAbs
+import br.eti.rafaelcouto.cryptocap.router.abs.HomeRouterAbs
 import br.eti.rafaelcouto.cryptocap.viewmodel.CryptoCompareViewModel
 import br.eti.rafaelcouto.cryptocap.viewmodel.CryptoDetailsViewModel
 import br.eti.rafaelcouto.cryptocap.viewmodel.HomeViewModel
@@ -161,5 +165,15 @@ object Modules {
         viewModel { CryptoCompareViewModel(useCase = get()) }
     }
 
-    val all = listOf(network, api, database, dao, paging, repository, useCase, mapper, viewModel)
+    private val router = module {
+        single<HomeRouterAbs> { params ->
+            HomeRouter(navController = params.get())
+        }
+
+        single<CryptoDetailsRouterAbs> { params ->
+            CryptoDetailsRouter(navController = params.get())
+        }
+    }
+
+    val all = listOf(network, api, database, dao, paging, repository, useCase, mapper, viewModel, router)
 }

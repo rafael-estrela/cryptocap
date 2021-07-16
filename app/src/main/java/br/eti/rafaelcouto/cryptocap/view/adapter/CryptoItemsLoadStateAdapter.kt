@@ -1,4 +1,4 @@
-package br.eti.rafaelcouto.cryptocap.view.home
+package br.eti.rafaelcouto.cryptocap.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
