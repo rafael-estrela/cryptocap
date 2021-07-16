@@ -7,9 +7,11 @@ import br.eti.rafaelcouto.cryptocap.data.repository.abs.CryptoDetailsRepositoryA
 import br.eti.rafaelcouto.cryptocap.domain.mapper.abs.CryptoDetailsMapperAbs
 import br.eti.rafaelcouto.cryptocap.domain.usecase.abs.CryptoDetailsUseCaseAbs
 import br.eti.rafaelcouto.cryptocap.testhelper.factory.DetailsFactory
+import br.eti.rafaelcouto.cryptocap.testhelper.factory.FavoriteFactory
 import com.google.common.truth.Truth.assertThat
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
@@ -21,7 +23,7 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class CryptoDetailsUseCaseTest {
 
-    @MockK private lateinit var mockRepository: CryptoDetailsRepositoryAbs
+    @RelaxedMockK private lateinit var mockRepository: CryptoDetailsRepositoryAbs
     @MockK private lateinit var mockMapper: CryptoDetailsMapperAbs
 
     private lateinit var sut: CryptoDetailsUseCaseAbs
@@ -77,5 +79,51 @@ class CryptoDetailsUseCaseTest {
         coVerify { mockRepository.fetchDetails(1) }
         coVerify { mockRepository.fetchQuotes(1) }
         verify { mockMapper.map(detailsInput, quotesInput) }
+    }
+
+    @Test
+    fun isFavoriteTest() = runBlocking {
+        coEvery { mockRepository.fetchFavorite(any()) }.returns(FavoriteFactory.default)
+
+        val actual = sut.isFavorite(1)
+
+        coVerify { mockRepository.fetchFavorite(1) }
+
+        assertThat(actual).isTrue()
+    }
+
+    @Test
+    fun isNotFavoriteTest() = runBlocking {
+        coEvery { mockRepository.fetchFavorite(any()) }.returns(null)
+
+        val actual = sut.isFavorite(1)
+
+        coVerify { mockRepository.fetchFavorite(1) }
+
+        assertThat(actual).isFalse()
+    }
+
+    @Test
+    fun saveToFavoritesTest() = runBlocking {
+        val input = FavoriteFactory.fromId(1)
+
+        every { mockMapper.map(any()) }.returns(input)
+
+        sut.saveToFavorites(1)
+
+        verify { mockMapper.map(1) }
+        coVerify { mockRepository.addToFavorites(input) }
+    }
+
+    @Test
+    fun removeFromFavoritesTest() = runBlocking {
+        val input = FavoriteFactory.fromId(1)
+
+        every { mockMapper.map(any()) }.returns(input)
+
+        sut.removeFromFavorites(1)
+
+        verify { mockMapper.map(1) }
+        coVerify { mockRepository.removeFromFavorites(input) }
     }
 }

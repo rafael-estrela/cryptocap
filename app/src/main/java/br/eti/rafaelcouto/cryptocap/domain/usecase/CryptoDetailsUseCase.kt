@@ -12,4 +12,8 @@ class CryptoDetailsUseCase(
 
     override fun fetchDetails(id: Long) = repository.fetchDetails(id)
         .zip(repository.fetchQuotes(id)) { details, quotes -> mapper.map(details, quotes) }
+
+    override suspend fun isFavorite(id: Long) = repository.fetchFavorite(id) != null
+    override suspend fun saveToFavorites(id: Long) = repository.addToFavorites(mapper.map(id))
+    override suspend fun removeFromFavorites(id: Long) = repository.removeFromFavorites(mapper.map(id))
 }

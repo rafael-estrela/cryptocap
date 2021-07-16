@@ -2,6 +2,7 @@ package br.eti.rafaelcouto.cryptocap.domain.mapper
 
 import br.eti.rafaelcouto.cryptocap.application.network.model.Result
 import br.eti.rafaelcouto.cryptocap.data.model.CryptoDetails
+import br.eti.rafaelcouto.cryptocap.data.model.Favorite
 import br.eti.rafaelcouto.cryptocap.data.model.QuoteDetails
 import br.eti.rafaelcouto.cryptocap.domain.mapper.abs.CryptoDetailsMapperAbs
 import br.eti.rafaelcouto.cryptocap.testhelper.factory.DetailsFactory
@@ -90,5 +91,13 @@ class CryptoDetailsMapperTest {
         assertThat(actual.status).isEqualTo(Result.Status.ERROR)
         assertThat(actual.data).isNull()
         assertThat(actual.error).isEqualTo("details input error")
+    }
+
+    @Test
+    fun mapFavoriteTest() {
+        val actual = sut.map(1)
+
+        assertThat(actual).isInstanceOf(Favorite::class.java)
+        assertThat(actual.id).isEqualTo(1)
     }
 }

@@ -61,12 +61,24 @@ class CryptoDetailsFragment : Fragment() {
         menu.clear()
 
         inflater.inflate(R.menu.details_menu, menu)
+
+        menu.findItem(R.id.item_favorite)?.setIcon(
+            if (detailsViewModel.isFavorite.value == true)
+                R.drawable.ic_favorite_active
+            else
+                R.drawable.ic_favorite
+        )
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.fragment_compare_select -> {
+        R.id.item_compare -> {
             val directions = CryptoDetailsFragmentDirections.fragmentDetailsToFragmentCompareSelect(true)
             navController.navigate(directions)
+
+            true
+        }
+        R.id.item_favorite -> {
+            detailsViewModel.handleFavorite()
 
             true
         }
@@ -109,6 +121,10 @@ class CryptoDetailsFragment : Fragment() {
                     .error(R.drawable.ic_error)
                     .into(binding.ivLogo)
             }
+        }
+
+        detailsViewModel.isFavorite.observe(viewLifecycleOwner) {
+            requireActivity().invalidateOptionsMenu()
         }
     }
 }

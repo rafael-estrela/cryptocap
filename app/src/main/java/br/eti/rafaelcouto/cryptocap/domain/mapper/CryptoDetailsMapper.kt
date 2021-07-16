@@ -2,6 +2,7 @@ package br.eti.rafaelcouto.cryptocap.domain.mapper
 
 import br.eti.rafaelcouto.cryptocap.application.network.model.Result
 import br.eti.rafaelcouto.cryptocap.data.model.CryptoDetails
+import br.eti.rafaelcouto.cryptocap.data.model.Favorite
 import br.eti.rafaelcouto.cryptocap.data.model.QuoteDetails
 import br.eti.rafaelcouto.cryptocap.domain.mapper.abs.CryptoDetailsMapperAbs
 import br.eti.rafaelcouto.cryptocap.domain.model.CryptoDetailsUI
@@ -18,6 +19,8 @@ class CryptoDetailsMapper : CryptoDetailsMapperAbs {
             Result.success(mapData(detailsData, quotesData))
         } ?: Result.error(quotes.error.orEmpty())
     } ?: Result.error(details.error.orEmpty())
+
+    override fun map(id: Long) = Favorite(id)
 
     private fun mapData(details: CryptoDetails, quotes: QuoteDetails) = CryptoDetailsUI(
         details.id,

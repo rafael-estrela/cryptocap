@@ -3,12 +3,14 @@ package br.eti.rafaelcouto.cryptocap.di
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
+import androidx.room.Room
 import br.eti.rafaelcouto.cryptocap.BuildConfig
 import br.eti.rafaelcouto.cryptocap.application.network.RequestConstants
 import br.eti.rafaelcouto.cryptocap.application.network.adapter.ResultAdapterFactory
 import br.eti.rafaelcouto.cryptocap.application.network.interceptor.HeaderInterceptor
 import br.eti.rafaelcouto.cryptocap.data.api.CryptoDetailsApi
 import br.eti.rafaelcouto.cryptocap.data.api.HomeApi
+import br.eti.rafaelcouto.cryptocap.data.local.FavoriteDatabase
 import br.eti.rafaelcouto.cryptocap.data.model.CryptoItem
 import br.eti.rafaelcouto.cryptocap.data.repository.CryptoDetailsRepository
 import br.eti.rafaelcouto.cryptocap.data.repository.HomeRepository
@@ -33,6 +35,7 @@ import br.eti.rafaelcouto.cryptocap.viewmodel.HomeViewModel
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -88,6 +91,23 @@ object Modules {
         }
     }
 
+    private val database = module {
+        single {
+            Room.databaseBuilder(
+                androidContext(),
+                FavoriteDatabase::class.java,
+                "db_favorites"
+            ).build()
+        }
+    }
+
+    private val dao = module {
+        single {
+            val db: FavoriteDatabase = get()
+            db.favoriteDao()
+        }
+    }
+
     private val paging = module {
         single<PagingSource<Int, CryptoItem>> { HomePagingSource(api = get()) }
 
@@ -98,7 +118,12 @@ object Modules {
 
     private val repository = module {
         single<HomeRepositoryAbs> { HomeRepository(pager = get()) }
-        single<CryptoDetailsRepositoryAbs> { CryptoDetailsRepository(api = get()) }
+        single<CryptoDetailsRepositoryAbs> {
+            CryptoDetailsRepository(
+                api = get(),
+                dao = get()
+            )
+        }
     }
 
     private val useCase = module {
@@ -136,5 +161,5 @@ object Modules {
         viewModel { CryptoCompareViewModel(useCase = get()) }
     }
 
-    val all = listOf(network, api, paging, repository, useCase, mapper, viewModel)
+    val all = listOf(network, api, database, dao, paging, repository, useCase, mapper, viewModel)
 }

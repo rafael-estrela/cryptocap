@@ -42,6 +42,20 @@ android {
     dataBinding {
         enabled = true
     }
+
+    sourceSets {
+        test {
+            java.srcDirs += "$projectDir/src/sharedTest"
+        }
+
+        androidTest {
+            java.srcDirs += "$projectDir/src/sharedTest"
+        }
+    }
+}
+
+android.sourceSets {
+
 }
 
 configurations {
@@ -135,6 +149,7 @@ dependencies {
     testImplementation "androidx.room:room-testing:$versions.room"
 
     // UI Tests
-    androidTestImplementation "androidx.test.ext:junit:1.1.3"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
+    androidTestImplementation "androidx.test.ext:junit:$versions.androidjunit"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$versions.espresso"
+    androidTestImplementation "androidx.test.ext:truth:$versions.truth"
 }

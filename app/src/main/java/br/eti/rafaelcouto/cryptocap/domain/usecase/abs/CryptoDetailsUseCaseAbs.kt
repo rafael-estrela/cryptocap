@@ -7,4 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface CryptoDetailsUseCaseAbs {
 
     fun fetchDetails(id: Long): Flow<Result<CryptoDetailsUI>>
+    suspend fun isFavorite(id: Long): Boolean
+    suspend fun saveToFavorites(id: Long)
+    suspend fun removeFromFavorites(id: Long)
 }

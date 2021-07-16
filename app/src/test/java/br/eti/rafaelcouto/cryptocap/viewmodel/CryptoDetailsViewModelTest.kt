@@ -7,10 +7,8 @@ import br.eti.rafaelcouto.cryptocap.domain.usecase.abs.CryptoDetailsUseCaseAbs
 import br.eti.rafaelcouto.cryptocap.testhelper.factory.DetailsFactory
 import br.eti.rafaelcouto.cryptocap.testhelper.rule.CoroutinesTestRule
 import com.google.common.truth.Truth.assertThat
-import io.mockk.MockKAnnotations
-import io.mockk.every
-import io.mockk.impl.annotations.MockK
-import io.mockk.verify
+import io.mockk.*
+import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -27,7 +25,7 @@ class CryptoDetailsViewModelTest {
     @get:Rule val instantTaskExecutor = InstantTaskExecutorRule()
     @get:Rule @ExperimentalCoroutinesApi val coroutineRule = CoroutinesTestRule()
 
-    @MockK private lateinit var mockUseCase: CryptoDetailsUseCaseAbs
+    @RelaxedMockK private lateinit var mockUseCase: CryptoDetailsUseCaseAbs
 
     private lateinit var sut: CryptoDetailsViewModel
 
@@ -44,6 +42,7 @@ class CryptoDetailsViewModelTest {
         sut.content.observeForever {}
         sut.variation.observeForever {}
         sut.variationColor.observeForever {}
+        sut.isFavorite.observeForever {}
 
         stateSequence.clear()
     }
@@ -52,44 +51,52 @@ class CryptoDetailsViewModelTest {
     fun loadDataSuccessTest() = runBlocking {
         val expected = DetailsFactory.itemDetailsUi
         every { mockUseCase.fetchDetails(any()) }.returns(flowOf(Result.success(expected)))
+        coEvery { mockUseCase.isFavorite(any()) }.returns(true)
 
         assertThat(sut.content.value).isNull()
         assertThat(sut.errorMessage.value).isNull()
         assertThat(sut.status.value).isNull()
         assertThat(sut.variation.value).isNull()
         assertThat(sut.variationColor.value).isNull()
+        assertThat(sut.isFavorite.value).isNull()
 
         sut.loadData(1)
 
         verify { mockUseCase.fetchDetails(1) }
+        coVerify { mockUseCase.isFavorite(1) }
 
         assertThat(sut.content.value).isEqualTo(expected)
         assertThat(sut.errorMessage.value).isNull()
         assertThat(sut.status.value).isNotNull()
         assertThat(sut.variation.value).isEqualTo(expected.dayVariation)
         assertThat(sut.variationColor.value).isEqualTo(R.color.green500)
+        assertThat(sut.isFavorite.value).isTrue()
         assertThat(stateSequence).containsExactly(Result.Status.LOADING, Result.Status.SUCCESS).inOrder()
     }
 
     @Test
     fun loadDataErrorTest() = runBlocking {
         every { mockUseCase.fetchDetails(any()) }.returns(flowOf(Result.error("dummy error")))
+        coEvery { mockUseCase.isFavorite(any()) }.returns(false)
 
         assertThat(sut.content.value).isNull()
         assertThat(sut.errorMessage.value).isNull()
         assertThat(sut.status.value).isNull()
         assertThat(sut.variation.value).isNull()
         assertThat(sut.variationColor.value).isNull()
+        assertThat(sut.isFavorite.value).isNull()
 
         sut.loadData(1)
 
         verify { mockUseCase.fetchDetails(1) }
+        coVerify { mockUseCase.isFavorite(1) }
 
         assertThat(sut.content.value).isNull()
         assertThat(sut.errorMessage.value).isEqualTo("dummy error")
         assertThat(sut.status.value).isNotNull()
         assertThat(sut.variation.value).isNull()
         assertThat(sut.variationColor.value).isNull()
+        assertThat(sut.isFavorite.value).isFalse()
         assertThat(stateSequence).containsExactly(Result.Status.LOADING, Result.Status.ERROR).inOrder()
     }
 
@@ -97,6 +104,7 @@ class CryptoDetailsViewModelTest {
     fun updateSelectionSuccessTest() = runBlocking {
         val expected = DetailsFactory.itemDetailsUi
         every { mockUseCase.fetchDetails(any()) }.returns(flowOf(Result.success(expected)))
+        coEvery { mockUseCase.isFavorite(any()) }.returns(true)
 
         sut.loadData(1)
 
@@ -126,6 +134,7 @@ class CryptoDetailsViewModelTest {
 
         val expected = DetailsFactory.itemDetailsUi
         every { mockUseCase.fetchDetails(any()) }.returns(flowOf(Result.success(expected)))
+        coEvery { mockUseCase.isFavorite(any()) }.returns(true)
 
         assertThat(variationSequence).isEmpty()
 
@@ -138,5 +147,36 @@ class CryptoDetailsViewModelTest {
 
         assertThat(sut.variation.value).isEqualTo(expected.dayVariation)
         assertThat(variationSequence).hasSize(1)
+    }
+
+    @Test
+    fun handleFavoriteSuccessTest() = runBlocking {
+        every { mockUseCase.fetchDetails(any()) }.returns(flowOf(Result.success(DetailsFactory.itemDetailsUi)))
+        coEvery { mockUseCase.isFavorite(any()) }.returns(true)
+
+        sut.loadData(1)
+
+        assertThat(sut.isFavorite.value).isTrue()
+
+        sut.handleFavorite()
+
+        coVerify { mockUseCase.removeFromFavorites(1) }
+        assertThat(sut.isFavorite.value).isFalse()
+
+        sut.handleFavorite()
+
+        coVerify { mockUseCase.saveToFavorites(1) }
+        assertThat(sut.isFavorite.value).isTrue()
+    }
+
+    @Test
+    fun handleFavoriteErrorTest() = runBlocking {
+        assertThat(sut.isFavorite.value).isNull()
+
+        sut.handleFavorite()
+
+        assertThat(sut.isFavorite.value).isNull()
+        coVerify(exactly = 0) { mockUseCase.removeFromFavorites(any()) }
+        coVerify(exactly = 0) { mockUseCase.saveToFavorites(any()) }
     }
 }

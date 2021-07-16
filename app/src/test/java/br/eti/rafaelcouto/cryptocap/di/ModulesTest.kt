@@ -8,6 +8,8 @@ import br.eti.rafaelcouto.cryptocap.application.network.adapter.ResultAdapterFac
 import br.eti.rafaelcouto.cryptocap.application.network.interceptor.HeaderInterceptor
 import br.eti.rafaelcouto.cryptocap.data.api.CryptoDetailsApi
 import br.eti.rafaelcouto.cryptocap.data.api.HomeApi
+import br.eti.rafaelcouto.cryptocap.data.local.FavoriteDatabase
+import br.eti.rafaelcouto.cryptocap.data.local.dao.FavoriteDao
 import br.eti.rafaelcouto.cryptocap.data.model.CryptoItem
 import br.eti.rafaelcouto.cryptocap.data.repository.CryptoDetailsRepository
 import br.eti.rafaelcouto.cryptocap.data.repository.HomeRepository
@@ -90,6 +92,20 @@ class ModulesTest : KoinTest {
 
         assertThat(homeApi).isNotNull()
         assertThat(detailsApi).isNotNull()
+    }
+
+    @Test
+    fun databaseTest() {
+        val database: FavoriteDatabase by inject()
+
+        assertThat(database).isNotNull()
+    }
+
+    @Test
+    fun daoTest() {
+        val dao: FavoriteDao by inject()
+
+        assertThat(dao).isNotNull()
     }
 
     @Test

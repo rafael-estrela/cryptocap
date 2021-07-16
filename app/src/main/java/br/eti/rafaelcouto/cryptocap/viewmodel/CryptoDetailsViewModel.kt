@@ -16,9 +16,12 @@ class CryptoDetailsViewModel(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
 
+    private var id: Long = 0
     private val data = MutableLiveData<Result<CryptoDetailsUI>>()
     private val currentSelection = MutableLiveData(CryptoDetailsUI.Variation.DAY)
+    private val favoriteStatus = MutableLiveData<Boolean>()
 
+    val isFavorite = favoriteStatus as LiveData<Boolean>
     val status = Transformations.map(data) { it.status }
     val errorMessage = Transformations.map(data) { it.error }
     val content = Transformations.map(data) { it.data }
@@ -40,17 +43,33 @@ class CryptoDetailsViewModel(
         if (it.startsWith("-")) R.color.red500 else R.color.green500
     }
 
-    fun loadData(id: Long) = viewModelScope.launch {
-        if (data.value != null) return@launch
+    fun loadData(id: Long) {
+        viewModelScope.launch {
+            if (data.value != null) return@launch
 
-        data.value = Result.loading()
+            this@CryptoDetailsViewModel.id = id
 
-        useCase.fetchDetails(id).flowOn(dispatcher).collect { data.value = it }
+            data.value = Result.loading()
+
+            useCase.fetchDetails(id).flowOn(dispatcher).collect { data.value = it }
+        }
+
+        viewModelScope.launch(dispatcher) {
+            favoriteStatus.postValue(useCase.isFavorite(id))
+        }
     }
 
     fun updateSelection(selectionId: Int) {
         CryptoDetailsUI.Variation.values().firstOrNull { it.id == selectionId }?.let { selection ->
             currentSelection.value = selection
+        }
+    }
+
+    fun handleFavorite() = viewModelScope.launch(dispatcher) {
+        favoriteStatus.value?.let {
+            if (it) useCase.removeFromFavorites(id) else useCase.saveToFavorites(id)
+
+            favoriteStatus.postValue(!it)
         }
     }
 }

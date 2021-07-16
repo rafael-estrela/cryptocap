@@ -12,4 +12,5 @@
     <string name="variation_month">30d</string>
     <string name="equal_symbol">=</string>
     <string name="swap">Inverter</string>
+    <string name="favorite_title">Salvar como favorito</string>
 </resources>
