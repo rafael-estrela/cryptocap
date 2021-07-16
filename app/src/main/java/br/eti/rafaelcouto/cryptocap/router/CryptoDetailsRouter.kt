@@ -2,7 +2,7 @@ package br.eti.rafaelcouto.cryptocap.router
 
 import androidx.navigation.NavController
 import br.eti.rafaelcouto.cryptocap.router.abs.CryptoDetailsRouterAbs
-import br.eti.rafaelcouto.cryptocap.view.details.CryptoDetailsFragmentDirections
+import br.eti.rafaelcouto.cryptocap.view.fragment.CryptoDetailsFragmentDirections
 
 class CryptoDetailsRouter(
     private val navController: NavController

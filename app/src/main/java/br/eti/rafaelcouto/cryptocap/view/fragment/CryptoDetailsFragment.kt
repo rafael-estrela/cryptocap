@@ -2,6 +2,7 @@ package br.eti.rafaelcouto.cryptocap.view.fragment
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
@@ -10,7 +11,6 @@ import br.eti.rafaelcouto.cryptocap.R
 import br.eti.rafaelcouto.cryptocap.application.network.model.Result
 import br.eti.rafaelcouto.cryptocap.databinding.FragmentCryptoDetailsBinding
 import br.eti.rafaelcouto.cryptocap.router.abs.CryptoDetailsRouterAbs
-import br.eti.rafaelcouto.cryptocap.view.details.CryptoDetailsFragmentArgs
 import br.eti.rafaelcouto.cryptocap.viewmodel.CryptoDetailsViewModel
 import com.bumptech.glide.Glide
 import org.koin.android.ext.android.inject

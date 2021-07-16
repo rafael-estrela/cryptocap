@@ -2,7 +2,7 @@ package br.eti.rafaelcouto.cryptocap.router
 
 import androidx.navigation.NavController
 import br.eti.rafaelcouto.cryptocap.router.abs.HomeRouterAbs
-import br.eti.rafaelcouto.cryptocap.view.home.HomeFragmentDirections
+import br.eti.rafaelcouto.cryptocap.view.fragment.HomeFragmentDirections
 
 class HomeRouter(
     private val navController: NavController

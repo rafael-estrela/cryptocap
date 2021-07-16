@@ -17,7 +17,6 @@ import br.eti.rafaelcouto.cryptocap.databinding.FragmentHomeBinding
 import br.eti.rafaelcouto.cryptocap.router.abs.HomeRouterAbs
 import br.eti.rafaelcouto.cryptocap.view.adapter.CryptoItemsAdapter
 import br.eti.rafaelcouto.cryptocap.view.adapter.CryptoItemsLoadStateAdapter
-import br.eti.rafaelcouto.cryptocap.view.home.HomeFragmentArgs
 import br.eti.rafaelcouto.cryptocap.viewmodel.HomeViewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel

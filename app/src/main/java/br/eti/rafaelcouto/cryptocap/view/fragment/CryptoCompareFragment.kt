@@ -13,7 +13,6 @@ import br.eti.rafaelcouto.cryptocap.R
 import br.eti.rafaelcouto.cryptocap.application.network.model.Result
 import br.eti.rafaelcouto.cryptocap.databinding.FragmentCryptoCompareBinding
 import br.eti.rafaelcouto.cryptocap.domain.model.CryptoCompareUI
-import br.eti.rafaelcouto.cryptocap.view.compare.CryptoCompareFragmentArgs
 import br.eti.rafaelcouto.cryptocap.viewmodel.CryptoCompareViewModel
 import com.bumptech.glide.Glide
 import org.koin.androidx.viewmodel.ext.android.viewModel
