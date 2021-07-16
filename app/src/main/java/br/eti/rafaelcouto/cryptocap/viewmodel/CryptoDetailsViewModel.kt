@@ -41,6 +41,8 @@ class CryptoDetailsViewModel(
     }
 
     fun loadData(id: Long) = viewModelScope.launch {
+        if (data.value != null) return@launch
+
         data.value = Result.loading()
 
         useCase.fetchDetails(id).flowOn(dispatcher).collect { data.value = it }

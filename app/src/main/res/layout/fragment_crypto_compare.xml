@@ -20,10 +20,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginStart="@dimen/spacing_small"
-            android:layout_marginEnd="@dimen/spacing_tiny"
+            android:layout_marginEnd="@dimen/spacing_micro"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/clTo">
+            app:layout_constraintEnd_toStartOf="@id/tvEqual">
 
             <ImageView
                 android:id="@+id/ivLogoFrom"
@@ -73,9 +73,10 @@
             android:id="@+id/clTo"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="@dimen/spacing_micro"
             android:layout_marginEnd="@dimen/spacing_small"
             app:layout_constraintTop_toTopOf="@id/clFrom"
-            app:layout_constraintStart_toEndOf="@id/clFrom"
+            app:layout_constraintStart_toEndOf="@id/tvEqual"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/clFrom">
 
