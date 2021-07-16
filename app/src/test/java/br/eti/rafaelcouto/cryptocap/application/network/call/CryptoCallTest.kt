@@ -38,14 +38,14 @@ class CryptoCallTest {
     @Test
     fun mapErrorFromJsonSuccessTest() {
         val json = "{" +
-                "\"status\":{" +
-                "\"timestamp\":\"2021-07-06T19:10:23.466Z\"," +
-                "\"error_code\":1001," +
-                "\"error_message\":\"mock error.\"," +
-                "\"elapsed\":0," +
-                "\"credit_count\":0" +
-                "}" +
-                "}"
+            "\"status\":{" +
+            "\"timestamp\":\"2021-07-06T19:10:23.466Z\"," +
+            "\"error_code\":1001," +
+            "\"error_message\":\"mock error.\"," +
+            "\"elapsed\":0," +
+            "\"credit_count\":0" +
+            "}" +
+            "}"
         val expected = "mock error."
         val actual = sut.fromJson(json)
 

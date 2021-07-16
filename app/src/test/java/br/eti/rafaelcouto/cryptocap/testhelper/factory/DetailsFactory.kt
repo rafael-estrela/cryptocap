@@ -12,10 +12,10 @@ object DetailsFactory {
         "Bitcoin",
         "BTC",
         "Bitcoin (BTC) is a cryptocurrency . Users are able to generate BTC through the " +
-                "process of mining. Bitcoin has a current supply of 18,754,631. The last known price " +
-                "of Bitcoin is 32,906.01273372 USD and is down -3.03 over the last 24 hours. It is " +
-                "currently trading on 9018 active market(s) with \$24,692,225,809.62 traded over the " +
-                "last 24 hours. More information can be found at https://bitcoin.org/.",
+            "process of mining. Bitcoin has a current supply of 18,754,631. The last known price " +
+            "of Bitcoin is 32,906.01273372 USD and is down -3.03 over the last 24 hours. It is " +
+            "currently trading on 9018 active market(s) with \$24,692,225,809.62 traded over the " +
+            "last 24 hours. More information can be found at https://bitcoin.org/.",
         "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png"
     )
 

@@ -14,7 +14,6 @@ import java.io.File
 import java.net.HttpURLConnection
 import java.util.concurrent.TimeUnit
 
-@Suppress("UnnecessaryAbstractClass")
 abstract class ApiTest {
 
     protected lateinit var mockWebServer: MockWebServer

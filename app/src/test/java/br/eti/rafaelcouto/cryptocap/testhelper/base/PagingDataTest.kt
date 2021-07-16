@@ -7,7 +7,6 @@ import br.eti.rafaelcouto.cryptocap.testhelper.dummy.DummyDiffCallback
 import br.eti.rafaelcouto.cryptocap.testhelper.dummy.DummyListUpdateCallback
 import kotlinx.coroutines.Dispatchers
 
-@Suppress("UnnecessaryAbstractClass")
 abstract class PagingDataTest {
 
     protected suspend fun <T : Any> getDifferSnapshot(

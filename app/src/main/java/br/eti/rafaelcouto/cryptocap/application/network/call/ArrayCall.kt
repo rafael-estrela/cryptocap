@@ -22,7 +22,6 @@ class ArrayCall<T>(
     override fun request(): Request = delegate.request()
     override fun timeout(): Timeout = delegate.timeout()
 
-    @Suppress("TooGenericExceptionCaught")
     override fun enqueue(callback: Callback<Result<T>>) {
         val result: Result<T> = try {
             val response = delegate.execute()

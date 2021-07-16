@@ -24,9 +24,8 @@ class ObjectCall<T>(
     override fun cancel() = delegate.cancel()
     override fun isCanceled() = delegate.isCanceled
     override fun request(): Request = delegate.request()
-    override fun timeout(): Timeout  = delegate.timeout()
+    override fun timeout(): Timeout = delegate.timeout()
 
-    @Suppress("TooGenericExceptionCaught")
     override fun enqueue(callback: Callback<Result<T>>) {
         val result: Result<T> = try {
             val response = delegate.execute()

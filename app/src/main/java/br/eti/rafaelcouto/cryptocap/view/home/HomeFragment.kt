@@ -81,7 +81,6 @@ class HomeFragment : Fragment() {
             setHasFixedSize(true)
         }
 
-
         cryptoAdapter.submitData(lifecycle, PagingData.empty())
     }
 
