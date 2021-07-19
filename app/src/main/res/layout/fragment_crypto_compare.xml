@@ -14,130 +14,153 @@
         android:layout_height="match_parent"
         android:background="@color/secondaryLightColor">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/clFrom"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:layout_marginStart="@dimen/spacing_small"
-            android:layout_marginEnd="@dimen/spacing_micro"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tvEqual">
-
-            <ImageView
-                android:id="@+id/ivLogoFrom"
-                android:layout_width="@dimen/size_large"
-                android:layout_height="@dimen/size_large"
-                android:contentDescription="@{@string/details_logo_content_description(viewModel.from.symbol)}"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:src="@drawable/ic_launcher_background"/>
-
-            <EditText
-                android:id="@+id/etAmountFrom"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
-                android:layout_marginStart="@dimen/spacing_standard"
-                android:layout_marginEnd="@dimen/spacing_standard"
-                android:padding="@dimen/spacing_micro"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextStyle.Large"
-                android:text="@={viewModel.fromAmount}"
-                android:background="@drawable/bg_edit_text"
-                android:inputType="numberDecimal"
-                app:layout_constraintTop_toBottomOf="@id/ivLogoFrom"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:text="1"/>
-
-            <TextView
-                android:id="@+id/tvCryptoFrom"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextStyle.Large"
-                android:text="@{viewModel.from.symbol}"
-                app:layout_constraintTop_toBottomOf="@id/etAmountFrom"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:text="BTC"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/clTo"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/srlRefresh"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="@dimen/spacing_micro"
-            android:layout_marginEnd="@dimen/spacing_small"
-            app:layout_constraintTop_toTopOf="@id/clFrom"
-            app:layout_constraintStart_toEndOf="@id/tvEqual"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/clFrom">
-
-            <ImageView
-                android:id="@+id/ivLogoTo"
-                android:layout_width="@dimen/size_large"
-                android:layout_height="@dimen/size_large"
-                android:contentDescription="@{@string/details_logo_content_description(viewModel.to.symbol)}"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:src="@drawable/ic_launcher_background"/>
-
-            <TextView
-                android:id="@+id/tvAmountTo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextStyle.Large"
-                android:text="@{viewModel.converted}"
-                app:layout_constraintTop_toBottomOf="@id/ivLogoTo"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/tvCryptoTo"
-                tools:text="16.42"/>
-
-            <TextView
-                android:id="@+id/tvCryptoTo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextStyle.Large"
-                android:text="@{viewModel.to.symbol}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:text="ETH"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            android:id="@+id/tvEqual"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/equal_symbol"
-            android:textAppearance="@style/TextStyle.Large"
-            app:layout_constraintTop_toTopOf="@id/clFrom"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/clTo"/>
+            app:layout_constraintBottom_toBottomOf="parent">
 
-        <Button
-            android:id="@+id/btnSwap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:textAppearance="@style/TextStyle.Small"
-            android:text="@string/swap"
-            app:layout_constraintTop_toBottomOf="@id/clTo"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/clFrom"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:layout_marginStart="@dimen/spacing_small"
+                        android:layout_marginEnd="@dimen/spacing_micro"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/tvEqual">
+
+                        <ImageView
+                            android:id="@+id/ivLogoFrom"
+                            android:layout_width="@dimen/size_large"
+                            android:layout_height="@dimen/size_large"
+                            android:contentDescription="@{@string/details_logo_content_description(viewModel.from.symbol)}"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:src="@drawable/ic_launcher_background"/>
+
+                        <EditText
+                            android:id="@+id/etAmountFrom"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:layout_marginStart="@dimen/spacing_standard"
+                            android:layout_marginEnd="@dimen/spacing_standard"
+                            android:padding="@dimen/spacing_micro"
+                            android:textAlignment="center"
+                            android:textAppearance="@style/TextStyle.Large"
+                            android:text="@={viewModel.fromAmount}"
+                            android:background="@drawable/bg_edit_text"
+                            android:inputType="numberDecimal"
+                            app:layout_constraintTop_toBottomOf="@id/ivLogoFrom"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:text="1"/>
+
+                        <TextView
+                            android:id="@+id/tvCryptoFrom"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:textAlignment="center"
+                            android:textAppearance="@style/TextStyle.Large"
+                            android:text="@{viewModel.from.symbol}"
+                            app:layout_constraintTop_toBottomOf="@id/etAmountFrom"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            tools:text="BTC"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/clTo"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="@dimen/spacing_micro"
+                        android:layout_marginEnd="@dimen/spacing_small"
+                        app:layout_constraintTop_toTopOf="@id/clFrom"
+                        app:layout_constraintStart_toEndOf="@id/tvEqual"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/clFrom">
+
+                        <ImageView
+                            android:id="@+id/ivLogoTo"
+                            android:layout_width="@dimen/size_large"
+                            android:layout_height="@dimen/size_large"
+                            android:contentDescription="@{@string/details_logo_content_description(viewModel.to.symbol)}"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:src="@drawable/ic_launcher_background"/>
+
+                        <TextView
+                            android:id="@+id/tvAmountTo"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:textAppearance="@style/TextStyle.Large"
+                            android:text="@{viewModel.converted}"
+                            app:layout_constraintTop_toBottomOf="@id/ivLogoTo"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/tvCryptoTo"
+                            tools:text="16.42"/>
+
+                        <TextView
+                            android:id="@+id/tvCryptoTo"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:textAppearance="@style/TextStyle.Large"
+                            android:text="@{viewModel.to.symbol}"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            tools:text="ETH"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:id="@+id/tvEqual"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/equal_symbol"
+                        android:textAppearance="@style/TextStyle.Large"
+                        app:layout_constraintTop_toTopOf="@id/clFrom"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/clTo"/>
+
+                    <Button
+                        android:id="@+id/btnSwap"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:textAppearance="@style/TextStyle.Small"
+                        android:text="@string/swap"
+                        app:layout_constraintTop_toBottomOf="@id/clTo"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </ScrollView>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <ProgressBar
             android:id="@+id/pbLoading"

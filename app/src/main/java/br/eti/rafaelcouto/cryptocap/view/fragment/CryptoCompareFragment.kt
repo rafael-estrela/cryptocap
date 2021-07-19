@@ -53,11 +53,15 @@ class CryptoCompareFragment : Fragment() {
 
     private fun setupLayout() {
         binding.btnSwap.setOnClickListener { compareViewModel.swap() }
+
+        binding.srlRefresh.setOnRefreshListener {
+            compareViewModel.loadData(args.fromId, args.toId)
+        }
     }
 
     private fun setupObservers() {
         compareViewModel.status.observe(viewLifecycleOwner) {
-            binding.pbLoading.isVisible = it == Result.Status.LOADING
+            binding.pbLoading.isVisible = it == Result.Status.LOADING && !binding.srlRefresh.isRefreshing
             binding.tvError.isVisible = it == Result.Status.ERROR
 
             val isSuccess = it == Result.Status.SUCCESS
@@ -66,6 +70,8 @@ class CryptoCompareFragment : Fragment() {
             binding.clTo.isVisible = isSuccess
             binding.btnSwap.isVisible = isSuccess
             binding.tvEqual.isVisible = isSuccess
+
+            if (isSuccess) binding.srlRefresh.isRefreshing = false
         }
 
         compareViewModel.from.observe(viewLifecycleOwner, updateLogoObserver(binding.ivLogoFrom))

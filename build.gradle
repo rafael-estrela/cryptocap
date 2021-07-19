@@ -15,6 +15,7 @@ buildscript {
         recyclerview  : '1.2.1',
         cardview      : '1.0.0',
         paging        : '3.0.0',
+        swiperefresh  : '1.1.0',
 
         glide         : '4.12.0',
 

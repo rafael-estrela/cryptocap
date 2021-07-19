@@ -43,9 +43,9 @@ class CryptoDetailsViewModel(
         if (it.startsWith("-")) R.color.red500 else R.color.green500
     }
 
-    fun loadData(id: Long) {
+    fun loadData(id: Long, isRefresh: Boolean = false) {
         viewModelScope.launch {
-            if (data.value != null) return@launch
+            if (data.value != null && !isRefresh) return@launch
 
             this@CryptoDetailsViewModel.id = id
 

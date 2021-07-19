@@ -101,17 +101,23 @@ class CryptoDetailsFragment : Fragment() {
         binding.rgVariation.setOnCheckedChangeListener { _, checkedId ->
             detailsViewModel.updateSelection(checkedId)
         }
+
+        binding.srlRefresh.setOnRefreshListener {
+            detailsViewModel.loadData(args.id, isRefresh = true)
+        }
     }
 
     private fun setupObservers() {
         detailsViewModel.status.observe(viewLifecycleOwner) {
-            binding.pbLoading.isVisible = it == Result.Status.LOADING
+            binding.pbLoading.isVisible = it == Result.Status.LOADING && !binding.srlRefresh.isRefreshing
             binding.tvError.isVisible = it == Result.Status.ERROR
             binding.clContent.isVisible = it == Result.Status.SUCCESS
         }
 
         detailsViewModel.content.observe(viewLifecycleOwner) {
             it?.let { data ->
+                binding.srlRefresh.isRefreshing = false
+
                 val url = data.logoUrl
 
                 Glide.with(this)

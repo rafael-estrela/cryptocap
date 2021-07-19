@@ -110,6 +110,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$versions.recyclerview"
     implementation "androidx.cardview:cardview:$versions.cardview"
     implementation "androidx.paging:paging-runtime-ktx:$versions.paging"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$versions.swiperefresh"
     implementation "com.github.bumptech.glide:glide:$versions.glide"
 
     // Navigation
