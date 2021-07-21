@@ -23,7 +23,15 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    testOptions {
+        animationsDisabled = true
+    }
+
     buildTypes {
+        debug {
+            testCoverageEnabled = true
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -39,6 +47,20 @@ android {
         jvmTarget = '1.8'
     }
 
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/AL2.0'
+        exclude("META-INF/*.kotlin_module")
+    }
+
     dataBinding {
         enabled = true
     }
@@ -52,10 +74,6 @@ android {
             java.srcDirs += "$projectDir/src/sharedTest"
         }
     }
-}
-
-android.sourceSets {
-
 }
 
 configurations {
@@ -150,7 +168,15 @@ dependencies {
     testImplementation "androidx.room:room-testing:$versions.room"
 
     // UI Tests
+    androidTestImplementation "androidx.test:runner:$versions.runner"
+    androidTestImplementation "androidx.test:rules:$versions.rules"
     androidTestImplementation "androidx.test.ext:junit:$versions.androidjunit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$versions.espresso"
     androidTestImplementation "androidx.test.ext:truth:$versions.truth"
+    androidTestImplementation "android.arch.core:core-testing:$versions.coretesting"
+    androidTestImplementation "androidx.navigation:navigation-testing:$versions.navtest"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutines"
+    androidTestImplementation "io.mockk:mockk-android:$versions.mockk"
+    androidTestImplementation "io.insert-koin:koin-test-junit4:$versions.koin"
+    debugImplementation "androidx.fragment:fragment-testing:$versions.fragmenttest"
 }

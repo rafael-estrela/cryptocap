@@ -182,4 +182,22 @@ class CryptoCompareViewModelTest {
 
         assertThat(sut.converted.value).isNull()
     }
+
+    @Test
+    fun editAmountFormatErrorTest() = runBlocking {
+        assertThat(sut.converted.value).isNull()
+
+        val expected = CompareFactory.increasing
+
+        every { mockUseCase.fetchInfo(any(), any()) }
+            .returns(flowOf(Result.success(expected)))
+
+        sut.loadData(FROM_ID, TO_ID)
+
+        assertThat(sut.converted.value).isEqualTo("2.00")
+
+        sut.fromAmount.value = "abc"
+
+        assertThat(sut.converted.value).isEqualTo("2.00")
+    }
 }

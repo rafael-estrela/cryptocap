@@ -16,7 +16,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class FavoriteDatabaseTest {
+class FavoriteDatabaseInstrumentedTest {
 
     private lateinit var db: FavoriteDatabase
     private lateinit var dao: FavoriteDao
